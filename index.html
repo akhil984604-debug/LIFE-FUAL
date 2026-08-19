@@ -3,32 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MindShield - NoFap Premium</title>
+  <title>MindShield - NoFap Tracker</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0d0e12">
 </head>
 <body>
   <div class="app-container">
     <div class="header">
       <span class="app-title">MINDSHIELD</span>
-      <div class="rank-badge" id="badgeContainer">
-        <span id="userRank">1. Bronze</span>
-      </div>
+      <div class="rank-badge"><span id="userRank">Not Started</span></div>
     </div>
 
+    <!-- MAIN TIMER CARD -->
     <div class="counter-card">
-      <p class="streak-label">CURRENT STREAK</p>
-      <div class="days-display">
-        <h1 id="daysCount">0</h1>
-        <span>DAYS</span>
+      <p class="streak-label">STREAK TIME LOG</p>
+      <div class="time-display">
+        <div class="time-box"><h1 id="daysCount">0</h1><span>DAYS</span></div>
+        <div class="time-box"><h1 id="hoursCount">00</h1><span>HRS</span></div>
+        <div class="time-box"><h1 id="minsCount">00</h1><span>MINS</span></div>
+        <div class="time-box"><h1 id="secsCount">00</h1><span>SECS</span></div>
       </div>
-      <p class="subtitle">Stay Focused, Stay Strong</p>
+      <p class="subtitle" id="statusText">Press Start to Begin Your Journey</p>
     </div>
 
+    <!-- ACTION BUTTONS -->
+    <div class="action-grid">
+      <button onclick="startStreak()" id="startBtn" class="btn-start">▶ START STREAK</button>
+      <button onclick="resetStreak()" id="resetBtn" class="btn-relapse" style="display:none;">RESET (RELAPSED)</button>
+    </div>
+
+    <!-- STATS GRID -->
     <div class="stats-grid">
       <div class="stat-box">
-        <span class="stat-title">POINTS</span>
-        <h2 id="userPoints">0</h2>
+        <span class="stat-title">TOTAL POINTS</span>
+        <h2 id="userPoints">0 PTS</h2>
       </div>
       <div class="stat-box">
         <span class="stat-title">NEXT RANK IN</span>
@@ -36,12 +46,39 @@
       </div>
     </div>
 
-    <div class="quote-card">
-      <p id="quoteText">"The struggle you're in today is developing the strength you need for tomorrow."</p>
+    <!-- MOTIVATION SECTION -->
+    <div class="section-card">
+      <h3 class="section-title">💡 DAILY MOTIVATION</h3>
+      <p id="quoteText" class="quote-text">"Great things never came from comfort zones."</p>
+      <button onclick="nextQuote()" class="btn-sub">New Quote</button>
     </div>
 
-    <button onclick="resetStreak()" class="btn-relapse">Reset Streak (Relapsed)</button>
+    <!-- RANK TIMELINE & POINTS MENU -->
+    <div class="section-card">
+      <h3 class="section-title">🏆 RANK & POINTS TIMELINE</h3>
+      <div class="timeline-list">
+        <div class="rank-item"><span>0 Days (0 Pts)</span> <b>Beginner 🥉</b></div>
+        <div class="rank-item"><span>3 Days (30 Pts)</span> <b>1. Bronze 🥉</b></div>
+        <div class="rank-item"><span>7 Days (70 Pts)</span> <b>2. Silver 🥈</b></div>
+        <div class="rank-item"><span>10 Days (100 Pts)</span> <b>3. Fighter 🥊</b></div>
+        <div class="rank-item"><span>14 Days (140 Pts)</span> <b>4. Warrior ⚔️</b></div>
+        <div class="rank-item"><span>21 Days (210 Pts)</span> <b>5. Gold 🥇</b></div>
+        <div class="rank-item"><span>30 Days (300 Pts)</span> <b>6. Platinum 🏆</b></div>
+        <div class="rank-item"><span>60 Days (600 Pts)</span> <b>7. Diamond 💎</b></div>
+        <div class="rank-item"><span>100 Days (1000 Pts)</span> <b>8. Titan 🛡️</b></div>
+        <div class="rank-item"><span>190 Days (1900 Pts)</span> <b>9. Grandmaster ⚡</b></div>
+        <div class="rank-item"><span>360 Days (3600 Pts)</span> <b>10. Legend 👑</b></div>
+      </div>
+    </div>
+
+    <!-- NOTEBOOK SECTION -->
+    <div class="section-card">
+      <h3 class="section-title">📝 PERSONAL NOTEBOOK</h3>
+      <textarea id="noteInput" placeholder="Write your daily thoughts, triggers, or wins here..."></textarea>
+      <button onclick="saveNote()" class="btn-sub">Save Note</button>
+    </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
