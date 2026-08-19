@@ -10,20 +10,18 @@
 <body>
   <div class="app-container">
 
-    <!-- PAGE 1: HOME (STREAK & LOGO) -->
+    <!-- PAGE 1: HOME -->
     <div id="page-home" class="page active">
       <div class="header">
         <span class="app-title">MINDSHIELD LEAGUE</span>
       </div>
 
-      <!-- GLOWING CENTER LOGO -->
       <div class="logo-wrapper">
         <div class="glow-ring"></div>
-        <img id="leagueIcon" class="center-logo" src="https://i.ibb.co/0pXyYrqB/1787144222633.png" alt="League Badge">
+        <img id="leagueIcon" class="center-logo" src="https://kommodo.ai/i/lrM8LoXIL9NaVOJeP0JV" alt="League Badge">
       </div>
-      <h2 id="leagueTitle" class="league-title">1. Bronze League</h2>
+      <h2 id="leagueTitle" class="league-title">Wood League</h2>
 
-      <!-- TIMER DISPLAY -->
       <div class="counter-card">
         <div class="time-display">
           <div class="time-box"><h1 id="daysCount">0</h1><span>DAYS</span></div>
@@ -36,6 +34,7 @@
       <div class="action-grid">
         <button onclick="startStreak()" id="startBtn" class="btn-start">▶ START STREAK</button>
         <button onclick="resetStreak()" id="resetBtn" class="btn-relapse" style="display:none;">RESET (RELAPSED)</button>
+        <button onclick="openUrgeModal()" class="btn-urge-alert">🚨 URGE ALERT</button>
       </div>
 
       <div class="stats-grid">
@@ -44,20 +43,11 @@
       </div>
     </div>
 
-    <!-- PAGE 2: TIMELINE (LEAGUE MENU) -->
+    <!-- PAGE 2: TIMELINE (LOGOS UPDATED) -->
     <div id="page-timeline" class="page">
       <h3 class="page-header">🏆 LEAGUE TIMELINE</h3>
-      <div class="timeline-list">
-        <div class="rank-card"><span>🥉 Bronze</span> <b>3 Days (30 Pts)</b></div>
-        <div class="rank-card"><span>🥈 Silver</span> <b>7 Days (70 Pts)</b></div>
-        <div class="rank-card"><span>🥊 Fighter</span> <b>10 Days (100 Pts)</b></div>
-        <div class="rank-card"><span>⚔️ Warrior</span> <b>14 Days (140 Pts)</b></div>
-        <div class="rank-card"><span>🥇 Gold</span> <b>21 Days (210 Pts)</b></div>
-        <div class="rank-card"><span>🏆 Platinum</span> <b>30 Days (300 Pts)</b></div>
-        <div class="rank-card"><span>💎 Diamond</span> <b>60 Days (600 Pts)</b></div>
-        <div class="rank-card"><span>🛡️ Titan</span> <b>100 Days (1000 Pts)</b></div>
-        <div class="rank-card"><span>⚡ Grandmaster</span> <b>190 Days (1900 Pts)</b></div>
-        <div class="rank-card"><span>👑 Legend</span> <b>360 Days (3600 Pts)</b></div>
+      <div class="timeline-list" id="timelineList">
+        <!-- Ranks with logos generated dynamically from script.js -->
       </div>
     </div>
 
@@ -73,8 +63,33 @@
     <!-- PAGE 4: NOTEBOOK -->
     <div id="page-notes" class="page">
       <h3 class="page-header">📝 PERSONAL NOTEBOOK</h3>
-      <textarea id="noteInput" placeholder="Note down your triggers, thoughts, or victories..."></textarea>
-      <button onclick="saveNote()" class="btn-start">Save Note</button>
+      <div class="note-input-group">
+        <textarea id="noteInput" placeholder="Note down your triggers, thoughts, or victories..."></textarea>
+        <button onclick="addNote()" class="btn-start">➕ Save Note</button>
+      </div>
+      
+      <div class="notes-container" id="notesList"></div>
+    </div>
+
+    <!-- URGE ALERT POPUP MODAL -->
+    <div id="urgeModal" class="modal-overlay">
+      <div class="modal-content">
+        <h2 class="urge-header">🚨 URGE ALERT</h2>
+        <p class="urge-sub">Feeling an urge? Take control before it takes control of you.</p>
+        
+        <div class="reset-card">
+          <h4 class="reset-title">⚡ Quick Reset</h4>
+          <ul class="reset-list">
+            <li>💧 <b>Drink Water</b> — Refresh yourself</li>
+            <li>🏋️ <b>Move Your Body</b> — Do a quick exercise</li>
+            <li>🧘 <b>Take a Breath</b> — 2–5 min meditation</li>
+            <li>📚 <b>Shift Your Focus</b> — Read or learn something</li>
+            <li>😴 <b>Rest & Reset</b> — Take a break or sleep</li>
+          </ul>
+        </div>
+
+        <button onclick="closeUrgeModal()" class="btn-got-this">💪 I'm in Control</button>
+      </div>
     </div>
 
     <!-- BOTTOM NAVIGATION MENU -->
@@ -88,4 +103,5 @@
   </div>
   <script src="script.js"></script>
 </body>
-</html>
+                            </html>
+                            
