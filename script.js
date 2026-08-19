@@ -1,18 +1,18 @@
 // Default logo (Wood League)
-const defaultLogo = "https://kommodo.ai/i/lrM8LoXIL9NaVOJeP0JV";
+const defaultLogo = "1000124813.png";
 
-// 10 Leagues with custom images and 365 days Legend target
+// 10 Leagues with custom images
 const ranks = [
-  { min: 0, max: 2, name: "Wood League", logoUrl: "https://kommodo.ai/i/lrM8LoXIL9NaVOJeP0JV", next: "3 Days" },
-  { min: 3, max: 6, name: "Bronze League", logoUrl: "https://kommodo.ai/i/sX3VhEJingINWn2hA1W7", next: "7 Days" },
-  { min: 7, max: 9, name: "Silver League", logoUrl: "https://kommodo.ai/i/3ARXgE2ped3pM6zt3hSL", next: "10 Days" },
-  { min: 10, max: 13, name: "Gold League", logoUrl: "https://kommodo.ai/i/uQQLCAytBhzBI2UJyc6K", next: "14 Days" },
-  { min: 14, max: 20, name: "Platinum League", logoUrl: "https://kommodo.ai/i/tnDSnviPYu1wyaPHMERw", next: "21 Days" },
-  { min: 21, max: 29, name: "Diamond League", logoUrl: "https://kommodo.ai/i/YGTIwGt7zciYYYzsfdGX", next: "30 Days" },
-  { min: 30, max: 59, name: "Master League", logoUrl: "https://kommodo.ai/i/sjRod069Rtf5d9wc9i9A", next: "60 Days" },
-  { min: 60, max: 99, name: "Grandmaster League", logoUrl: "https://kommodo.ai/i/IX9mtsoHaBTb0k33ajd4", next: "100 Days" },
-  { min: 100, max: 364, name: "Titan League", logoUrl: "https://kommodo.ai/i/qoKOVRI5lepL48JtcDza", next: "365 Days" },
-  { min: 365, max: 9999, name: "Legend League", logoUrl: "https://kommodo.ai/i/Q5vCDHgSyxnGZeTdfLoE", next: "Max Rank" }
+  { min: 0, max: 2, name: "Wood League", logoUrl: "1000124813.png", next: "3 Days" },
+  { min: 3, max: 6, name: "Bronze League", logoUrl: "1000124735.png", next: "7 Days" },
+  { min: 7, max: 9, name: "Silver League", logoUrl: "1000124773.png", next: "10 Days" },
+  { min: 10, max: 13, name: "Gold League", logoUrl: "1000124774.png", next: "14 Days" },
+  { min: 14, max: 20, name: "Platinum League", logoUrl: "1000124775.png", next: "21 Days" },
+  { min: 21, max: 29, name: "Diamond League", logoUrl: "1000124812.png", next: "30 Days" },
+  { min: 30, max: 59, name: "Master League", logoUrl: "1000124799.png", next: "60 Days" },
+  { min: 60, max: 99, name: "Grandmaster League", logoUrl: "1000124800.png", next: "100 Days" },
+  { min: 100, max: 364, name: "Titan League", logoUrl: "1000124801.png", next: "365 Days" },
+  { min: 365, max: 9999, name: "Legend League", logoUrl: "1000124802.png", next: "Max Rank" }
 ];
 
 // 15 Motivation Quotes
@@ -199,4 +199,4 @@ renderTimeline();
 renderNotes();
 setInterval(updateTimer, 1000);
 updateTimer();
-    
+  
