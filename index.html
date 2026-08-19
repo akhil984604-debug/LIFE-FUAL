@@ -3,82 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MindShield - NoFap Tracker</title>
+  <title>MindShield - NoFap League</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#0d0e12">
 </head>
 <body>
   <div class="app-container">
-    <div class="header">
-      <span class="app-title">MINDSHIELD</span>
-      <div class="rank-badge"><span id="userRank">Not Started</span></div>
-    </div>
 
-    <!-- MAIN TIMER CARD -->
-    <div class="counter-card">
-      <p class="streak-label">STREAK TIME LOG</p>
-      <div class="time-display">
-        <div class="time-box"><h1 id="daysCount">0</h1><span>DAYS</span></div>
-        <div class="time-box"><h1 id="hoursCount">00</h1><span>HRS</span></div>
-        <div class="time-box"><h1 id="minsCount">00</h1><span>MINS</span></div>
-        <div class="time-box"><h1 id="secsCount">00</h1><span>SECS</span></div>
+    <!-- PAGE 1: HOME (STREAK & LOGO) -->
+    <div id="page-home" class="page active">
+      <div class="header">
+        <span class="app-title">MINDSHIELD LEAGUE</span>
       </div>
-      <p class="subtitle" id="statusText">Press Start to Begin Your Journey</p>
-    </div>
 
-    <!-- ACTION BUTTONS -->
-    <div class="action-grid">
-      <button onclick="startStreak()" id="startBtn" class="btn-start">▶ START STREAK</button>
-      <button onclick="resetStreak()" id="resetBtn" class="btn-relapse" style="display:none;">RESET (RELAPSED)</button>
-    </div>
-
-    <!-- STATS GRID -->
-    <div class="stats-grid">
-      <div class="stat-box">
-        <span class="stat-title">TOTAL POINTS</span>
-        <h2 id="userPoints">0 PTS</h2>
+      <!-- GLOWING CENTER LOGO -->
+      <div class="logo-wrapper">
+        <div class="glow-ring"></div>
+        <img id="leagueIcon" class="center-logo" src="https://i.ibb.co/0pXyYrqB/1787144222633.png" alt="League Badge">
       </div>
-      <div class="stat-box">
-        <span class="stat-title">NEXT RANK IN</span>
-        <h2 id="nextRank">3 Days</h2>
+      <h2 id="leagueTitle" class="league-title">1. Bronze League</h2>
+
+      <!-- TIMER DISPLAY -->
+      <div class="counter-card">
+        <div class="time-display">
+          <div class="time-box"><h1 id="daysCount">0</h1><span>DAYS</span></div>
+          <div class="time-box"><h1 id="hoursCount">00</h1><span>HRS</span></div>
+          <div class="time-box"><h1 id="minsCount">00</h1><span>MINS</span></div>
+          <div class="time-box"><h1 id="secsCount">00</h1><span>SECS</span></div>
+        </div>
+      </div>
+
+      <div class="action-grid">
+        <button onclick="startStreak()" id="startBtn" class="btn-start">▶ START STREAK</button>
+        <button onclick="resetStreak()" id="resetBtn" class="btn-relapse" style="display:none;">RESET (RELAPSED)</button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-box"><span>POINTS</span><h3 id="userPoints">0 PTS</h3></div>
+        <div class="stat-box"><span>NEXT LEAGUE</span><h3 id="nextRank">3 Days</h3></div>
       </div>
     </div>
 
-    <!-- MOTIVATION SECTION -->
-    <div class="section-card">
-      <h3 class="section-title">💡 DAILY MOTIVATION</h3>
-      <p id="quoteText" class="quote-text">"Great things never came from comfort zones."</p>
-      <button onclick="nextQuote()" class="btn-sub">New Quote</button>
-    </div>
-
-    <!-- RANK TIMELINE & POINTS MENU -->
-    <div class="section-card">
-      <h3 class="section-title">🏆 RANK & POINTS TIMELINE</h3>
+    <!-- PAGE 2: TIMELINE (LEAGUE MENU) -->
+    <div id="page-timeline" class="page">
+      <h3 class="page-header">🏆 LEAGUE TIMELINE</h3>
       <div class="timeline-list">
-        <div class="rank-item"><span>0 Days (0 Pts)</span> <b>Beginner 🥉</b></div>
-        <div class="rank-item"><span>3 Days (30 Pts)</span> <b>1. Bronze 🥉</b></div>
-        <div class="rank-item"><span>7 Days (70 Pts)</span> <b>2. Silver 🥈</b></div>
-        <div class="rank-item"><span>10 Days (100 Pts)</span> <b>3. Fighter 🥊</b></div>
-        <div class="rank-item"><span>14 Days (140 Pts)</span> <b>4. Warrior ⚔️</b></div>
-        <div class="rank-item"><span>21 Days (210 Pts)</span> <b>5. Gold 🥇</b></div>
-        <div class="rank-item"><span>30 Days (300 Pts)</span> <b>6. Platinum 🏆</b></div>
-        <div class="rank-item"><span>60 Days (600 Pts)</span> <b>7. Diamond 💎</b></div>
-        <div class="rank-item"><span>100 Days (1000 Pts)</span> <b>8. Titan 🛡️</b></div>
-        <div class="rank-item"><span>190 Days (1900 Pts)</span> <b>9. Grandmaster ⚡</b></div>
-        <div class="rank-item"><span>360 Days (3600 Pts)</span> <b>10. Legend 👑</b></div>
+        <div class="rank-card"><span>🥉 Bronze</span> <b>3 Days (30 Pts)</b></div>
+        <div class="rank-card"><span>🥈 Silver</span> <b>7 Days (70 Pts)</b></div>
+        <div class="rank-card"><span>🥊 Fighter</span> <b>10 Days (100 Pts)</b></div>
+        <div class="rank-card"><span>⚔️ Warrior</span> <b>14 Days (140 Pts)</b></div>
+        <div class="rank-card"><span>🥇 Gold</span> <b>21 Days (210 Pts)</b></div>
+        <div class="rank-card"><span>🏆 Platinum</span> <b>30 Days (300 Pts)</b></div>
+        <div class="rank-card"><span>💎 Diamond</span> <b>60 Days (600 Pts)</b></div>
+        <div class="rank-card"><span>🛡️ Titan</span> <b>100 Days (1000 Pts)</b></div>
+        <div class="rank-card"><span>⚡ Grandmaster</span> <b>190 Days (1900 Pts)</b></div>
+        <div class="rank-card"><span>👑 Legend</span> <b>360 Days (3600 Pts)</b></div>
       </div>
     </div>
 
-    <!-- NOTEBOOK SECTION -->
-    <div class="section-card">
-      <h3 class="section-title">📝 PERSONAL NOTEBOOK</h3>
-      <textarea id="noteInput" placeholder="Write your daily thoughts, triggers, or wins here..."></textarea>
-      <button onclick="saveNote()" class="btn-sub">Save Note</button>
+    <!-- PAGE 3: MOTIVATION -->
+    <div id="page-motivation" class="page">
+      <h3 class="page-header">💡 MOTIVATION</h3>
+      <div class="quote-card">
+        <p id="quoteText">"The struggle you're in today is developing the strength you need for tomorrow."</p>
+      </div>
+      <button onclick="nextQuote()" class="btn-start">New Quote</button>
     </div>
-  </div>
 
+    <!-- PAGE 4: NOTEBOOK -->
+    <div id="page-notes" class="page">
+      <h3 class="page-header">📝 PERSONAL NOTEBOOK</h3>
+      <textarea id="noteInput" placeholder="Note down your triggers, thoughts, or victories..."></textarea>
+      <button onclick="saveNote()" class="btn-start">Save Note</button>
+    </div>
+
+    <!-- BOTTOM NAVIGATION MENU -->
+    <div class="navbar">
+      <button onclick="showPage('page-home')" class="nav-btn active">🏠 Home</button>
+      <button onclick="showPage('page-timeline')" class="nav-btn">🏆 Leagues</button>
+      <button onclick="showPage('page-motivation')" class="nav-btn">💡 Quotes</button>
+      <button onclick="showPage('page-notes')" class="nav-btn">📝 Notes</button>
+    </div>
+
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
