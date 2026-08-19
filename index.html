@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindShield - NoFap Premium</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <div class="header">
+      <span class="app-title">MINDSHIELD</span>
+      <div class="rank-badge" id="badgeContainer">
+        <span id="userRank">1. Bronze</span>
+      </div>
+    </div>
+
+    <div class="counter-card">
+      <p class="streak-label">CURRENT STREAK</p>
+      <div class="days-display">
+        <h1 id="daysCount">0</h1>
+        <span>DAYS</span>
+      </div>
+      <p class="subtitle">Stay Focused, Stay Strong</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <span class="stat-title">POINTS</span>
+        <h2 id="userPoints">0</h2>
+      </div>
+      <div class="stat-box">
+        <span class="stat-title">NEXT RANK IN</span>
+        <h2 id="nextRank">3 Days</h2>
+      </div>
+    </div>
+
+    <div class="quote-card">
+      <p id="quoteText">"The struggle you're in today is developing the strength you need for tomorrow."</p>
+    </div>
+
+    <button onclick="resetStreak()" class="btn-relapse">Reset Streak (Relapsed)</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
