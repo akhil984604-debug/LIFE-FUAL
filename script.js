@@ -1,21 +1,123 @@
 // Default logo (Wood League)
 const defaultLogo = "https://i.ibb.co/1tpcH1Rg/html-render-1.png";
 
-// 10 Leagues with ImgBB Direct Image Links
+// 10 Leagues with ImgBB Direct Image Links & Benefits
 const ranks = [
-  { min: 0, max: 2, name: "Wood League", logoUrl: "https://i.ibb.co/1tpcH1Rg/html-render-1.png", next: "3 Days" },
-  { min: 3, max: 6, name: "Bronze League", logoUrl: "https://i.ibb.co/0pXyYrqB/1787144222633.png", next: "7 Days" },
-  { min: 7, max: 9, name: "Silver League", logoUrl: "https://i.ibb.co/PGYLFGC6/1787149414212.png", next: "10 Days" },
-  { min: 10, max: 13, name: "Gold League", logoUrl: "https://i.ibb.co/Y7T2Md1T/1787149453207.png", next: "14 Days" },
-  { min: 14, max: 20, name: "Platinum League", logoUrl: "https://i.ibb.co/mC9TC9z2/1787149488344.png", next: "21 Days" },
-  { min: 21, max: 29, name: "Diamond League", logoUrl: "https://i.ibb.co/gb4knVNw/1787164361213.png", next: "30 Days" },
-  { min: 30, max: 59, name: "Master League", logoUrl: "https://i.ibb.co/NRMcNyy/1787163001657.png", next: "60 Days" },
-  { min: 60, max: 99, name: "Grandmaster League", logoUrl: "https://i.ibb.co/p67r29g6/1787163062978.png", next: "100 Days" },
-  { min: 100, max: 364, name: "Titan League", logoUrl: "https://i.ibb.co/4nGpPkTB/1787163120591.png", next: "365 Days" },
-  { min: 365, max: 9999, name: "Legend League", logoUrl: "https://i.ibb.co/WvG42K78/1787163182723.png", next: "Max Rank" }
+  { 
+    min: 0, 
+    max: 2, 
+    name: "Wood League", 
+    logoUrl: "https://i.ibb.co/1tpcH1Rg/html-render-1.png", 
+    next: "3 Days",
+    benefits: [
+      "The Start – Journey begins"
+    ]
+  },
+  { 
+    min: 3, 
+    max: 6, 
+    name: "Bronze League", 
+    logoUrl: "https://i.ibb.co/0pXyYrqB/1787144222633.png", 
+    next: "7 Days",
+    benefits: [
+      "The Start – Cravings & doubt begin",
+      "Withdrawals Hit – Urges, mood swings, brain fog"
+    ]
+  },
+  { 
+    min: 7, 
+    max: 9, 
+    name: "Silver League", 
+    logoUrl: "https://i.ibb.co/PGYLFGC6/1787149414212.png", 
+    next: "10 Days",
+    benefits: [
+      "Withdrawals Hit",
+      "Clearer Mind – Slight focus boost, less guilt",
+      "Small Win – Willpower rising"
+    ]
+  },
+  { 
+    min: 10, 
+    max: 13, 
+    name: "Gold League", 
+    logoUrl: "https://i.ibb.co/Y7T2Md1T/1787149453207.png", 
+    next: "14 Days",
+    benefits: [
+      "Energy Boost – Feel more alive & alert"
+    ]
+  },
+  { 
+    min: 14, 
+    max: 20, 
+    name: "Platinum League", 
+    logoUrl: "https://i.ibb.co/mC9TC9z2/1787149488344.png", 
+    next: "21 Days",
+    benefits: [
+      "Better Control – Urges reduce, discipline builds",
+      "Sleep Improves – Deeper, restful sleep begins"
+    ]
+  },
+  { 
+    min: 21, 
+    max: 29, 
+    name: "Diamond League", 
+    logoUrl: "https://i.ibb.co/gb4knVNw/1787164361213.png", 
+    next: "30 Days",
+    benefits: [
+      "Mood Balances – Less anxious, more stable",
+      "Skin Glows – Brighter skin & eyes"
+    ]
+  },
+  { 
+    min: 30, 
+    max: 59, 
+    name: "Master League", 
+    logoUrl: "https://i.ibb.co/NRMcNyy/1787163001657.png", 
+    next: "60 Days",
+    benefits: [
+      "Confidence Up – Better eye contact & posture",
+      "1 Month Done – Stronger, focused, consistent"
+    ]
+  },
+  { 
+    min: 60, 
+    max: 99, 
+    name: "Grandmaster League", 
+    logoUrl: "https://i.ibb.co/p67r29g6/1787163062978.png", 
+    next: "100 Days",
+    benefits: [
+      "Driven – Goals matter more than urges",
+      "Memory Boost – Learn & recall faster",
+      "Noticed More – People are drawn to your energy",
+      "No Cravings – Less addiction to screens"
+    ]
+  },
+  { 
+    min: 100, 
+    max: 364, 
+    name: "Titan League", 
+    logoUrl: "https://i.ibb.co/4nGpPkTB/1787163120591.png", 
+    next: "365 Days",
+    benefits: [
+      "Body Improves – Muscle tone & stamina rise",
+      "Calm Mind – Better emotional control",
+      "Hyper Focus – Work/tasks feel easier",
+      "New You – Confident, sharp & unstoppable"
+    ]
+  },
+  { 
+    min: 365, 
+    max: 9999, 
+    name: "Legend League", 
+    logoUrl: "https://i.ibb.co/WvG42K78/1787163182723.png", 
+    next: "Max Rank",
+    benefits: [
+      "All previous milestones + Long-term transformation / New You"
+    ]
+  }
 ];
 
-// 15 Motivation Quotes
+// Motivation Quotes
 const quotes = [
   '"The struggle you\'re in today is developing the strength you need for tomorrow."',
   '"Your future self will thank you for not giving up today."',
@@ -112,27 +214,72 @@ function nextQuote() {
   document.getElementById("quoteText").innerText = quotes[randomIndex];
 }
 
-/* --- RENDER TIMELINE WITH CUSTOM LOGOS --- */
+/* --- RENDER TIMELINE WITH CLICKABLE LEAGUES --- */
 function renderTimeline() {
   let timelineContainer = document.getElementById("timelineList");
   if (!timelineContainer) return;
   
   timelineContainer.innerHTML = "";
-  ranks.forEach(rank => {
+  ranks.forEach((rank, index) => {
     let rankCard = document.createElement("div");
     rankCard.className = "rank-card";
+    rankCard.style.cursor = "pointer"; // Clickable style
     
     let daysText = rank.min === 365 ? "365 Days (3650 Pts)" : `${rank.min} Days (${rank.min * 10} Pts)`;
     
     rankCard.innerHTML = `
       <div style="display:flex; align-items:center; gap:10px;">
-        <img src="${rank.logoUrl}" style="width:24px; height:24px; border-radius:50%; object-fit:cover;">
+        <img src="${rank.logoUrl}" style="width:28px; height:28px; border-radius:50%; object-fit:cover;">
         <span>${rank.name}</span>
       </div>
       <b>${daysText}</b>
     `;
+
+    // Click event to open League Benefits Modal
+    rankCard.onclick = () => showLeagueDetails(index);
+    
     timelineContainer.appendChild(rankCard);
   });
+}
+
+/* --- SHOW LEAGUE DETAILS MODAL --- */
+function showLeagueDetails(index) {
+  let rank = ranks[index];
+  
+  let modal = document.getElementById("leagueDetailModal");
+  if (!modal) {
+    // Dynamically create modal if it doesn't exist in HTML
+    modal = document.createElement("div");
+    modal.id = "leagueDetailModal";
+    modal.className = "modal";
+    document.body.appendChild(modal);
+  }
+
+  let benefitsList = rank.benefits.map(b => `<li style="margin-bottom:8px; text-align:left;">✨ ${b}</li>`).join("");
+
+  modal.innerHTML = `
+    <div class="modal-content" style="text-align:center; padding:20px; max-width:320px; margin:auto;">
+      <img src="${rank.logoUrl}" style="width:70px; height:70px; border-radius:50%; margin-bottom:10px; object-fit:cover;">
+      <h2 style="margin:5px 0;">${rank.name}</h2>
+      <p style="color:#888; font-size:13px; margin-bottom:15px;">Target: ${rank.min} Days</p>
+      
+      <div style="background:#111; padding:12px; border-radius:8px; border:1px solid #333; margin-bottom:15px;">
+        <h4 style="margin-top:0; color:#fff; text-align:left; border-bottom:1px solid #222; padding-bottom:5px;">Benefits & Milestones:</h4>
+        <ul style="padding-left:15px; margin:0; font-size:12px; color:#ccc;">
+          ${benefitsList}
+        </ul>
+      </div>
+
+      <button onclick="closeLeagueModal()" style="padding:8px 20px; background:#444; color:#fff; border:none; border-radius:5px; cursor:pointer;">Close</button>
+    </div>
+  `;
+
+  modal.classList.add("active");
+}
+
+function closeLeagueModal() {
+  let modal = document.getElementById("leagueDetailModal");
+  if (modal) modal.classList.remove("active");
 }
 
 /* --- MULTIPLE NOTES SYSTEM --- */
@@ -144,6 +291,8 @@ function getStoredNotes() {
 function renderNotes() {
   let notes = getStoredNotes();
   let notesContainer = document.getElementById("notesList");
+  if (!notesContainer) return;
+  
   notesContainer.innerHTML = "";
 
   if (notes.length === 0) {
@@ -199,4 +348,4 @@ renderTimeline();
 renderNotes();
 setInterval(updateTimer, 1000);
 updateTimer();
-                
+      
