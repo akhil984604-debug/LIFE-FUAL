@@ -1,18 +1,18 @@
 // Default logo (Wood League)
-const defaultLogo = "1000124813.png";
+const defaultLogo = "https://i.ibb.co/1tpcH1Rg/html-render-1.png";
 
-// 10 Leagues with custom images
+// 10 Leagues with ImgBB Direct Image Links
 const ranks = [
-  { min: 0, max: 2, name: "Wood League", logoUrl: "1000124813.png", next: "3 Days" },
-  { min: 3, max: 6, name: "Bronze League", logoUrl: "1000124735.png", next: "7 Days" },
-  { min: 7, max: 9, name: "Silver League", logoUrl: "1000124773.png", next: "10 Days" },
-  { min: 10, max: 13, name: "Gold League", logoUrl: "1000124774.png", next: "14 Days" },
-  { min: 14, max: 20, name: "Platinum League", logoUrl: "1000124775.png", next: "21 Days" },
-  { min: 21, max: 29, name: "Diamond League", logoUrl: "1000124812.png", next: "30 Days" },
-  { min: 30, max: 59, name: "Master League", logoUrl: "1000124799.png", next: "60 Days" },
-  { min: 60, max: 99, name: "Grandmaster League", logoUrl: "1000124800.png", next: "100 Days" },
-  { min: 100, max: 364, name: "Titan League", logoUrl: "1000124801.png", next: "365 Days" },
-  { min: 365, max: 9999, name: "Legend League", logoUrl: "1000124802.png", next: "Max Rank" }
+  { min: 0, max: 2, name: "Wood League", logoUrl: "https://i.ibb.co/1tpcH1Rg/html-render-1.png", next: "3 Days" },
+  { min: 3, max: 6, name: "Bronze League", logoUrl: "https://i.ibb.co/0pXyYrqB/1787144222633.png", next: "7 Days" },
+  { min: 7, max: 9, name: "Silver League", logoUrl: "https://i.ibb.co/PGYLFGC6/1787149414212.png", next: "10 Days" },
+  { min: 10, max: 13, name: "Gold League", logoUrl: "https://i.ibb.co/Y7T2Md1T/1787149453207.png", next: "14 Days" },
+  { min: 14, max: 20, name: "Platinum League", logoUrl: "https://i.ibb.co/mC9TC9z2/1787149488344.png", next: "21 Days" },
+  { min: 21, max: 29, name: "Diamond League", logoUrl: "https://i.ibb.co/gb4knVNw/1787164361213.png", next: "30 Days" },
+  { min: 30, max: 59, name: "Master League", logoUrl: "https://i.ibb.co/NRMcNyy/1787163001657.png", next: "60 Days" },
+  { min: 60, max: 99, name: "Grandmaster League", logoUrl: "https://i.ibb.co/p67r29g6/1787163062978.png", next: "100 Days" },
+  { min: 100, max: 364, name: "Titan League", logoUrl: "https://i.ibb.co/4nGpPkTB/1787163120591.png", next: "365 Days" },
+  { min: 365, max: 9999, name: "Legend League", logoUrl: "https://i.ibb.co/WvG42K78/1787163182723.png", next: "Max Rank" }
 ];
 
 // 15 Motivation Quotes
@@ -199,4 +199,4 @@ renderTimeline();
 renderNotes();
 setInterval(updateTimer, 1000);
 updateTimer();
-  
+                
