@@ -9,7 +9,7 @@ const onboardingData = {
 
 const defaultLogo = "https://i.ibb.co/1tpcH1Rg/html-render-1.png";
 
-// Updated Ranks with exact specific benefits
+// Ranks with specific benefits
 const ranks = [
   { min: 0, max: 2, name: "Wood League", logoUrl: "https://i.ibb.co/1tpcH1Rg/html-render-1.png", next: "3 Days", benefits: ["The Start – journey begins"] },
   { min: 3, max: 6, name: "Bronze League", logoUrl: "https://i.ibb.co/0pXyYrqB/1787144222633.png", next: "7 Days", benefits: ["The Start – cravings & doubt begin", "Withdrawals Hit – urges, mood swings, brain fog"] },
@@ -139,10 +139,9 @@ function populateResults() {
   if (triggerElem) triggerElem.innerText = onboardingData.triggers[0] || onboardingData.riskTime || 'Late Night';
 }
 
-// ഒറ്റത്തവണ മാത്രം Onboarding കാണിക്കാൻ വേണ്ടിയുള്ള ഫങ്ഷൻ
 function completeOnboarding() {
   localStorage.setItem('user_onboarding_data', JSON.stringify(onboardingData));
-  localStorage.setItem('has_completed_onboarding', 'true'); // Flag Saved
+  localStorage.setItem('has_completed_onboarding', 'true');
   
   const obContainer = document.getElementById('onboarding-container');
   const mainApp = document.getElementById('main-app-interface');
@@ -245,7 +244,7 @@ function resetStreak() {
 }
 
 // ==========================================
-// 4. TIMELINE & LEAGUE DETAILS NAVIGATION
+// 4. TIMELINE & FULL-SCREEN LEAGUE DETAILS
 // ==========================================
 
 function renderTimeline() {
@@ -287,33 +286,46 @@ function openLeagueDetailsPage(index) {
   }
 
   let benefitsItems = rank.benefits.map(b => `
-    <div style="margin-bottom:10px; padding:12px; background:#1e293b; border-left:4px solid #f59e0b; border-radius:5px; font-size:13px; color:#e2e8f0;">
+    <div style="margin-bottom:8px; padding:10px; background:#1e293b; border-left:3px solid #f59e0b; border-radius:6px; font-size:12px; color:#e2e8f0; line-height:1.3;">
       ⚡ ${b}
     </div>
   `).join("");
 
+  // Full Screen No-Scroll Container Styles
   detailsPage.innerHTML = `
-    <div style="padding:10px 0;">
-      <button onclick="closeLeagueDetailsPage()" style="background:none; border:none; color:#f59e0b; font-weight:bold; cursor:pointer; margin-bottom:20px; font-size:14px;">← Back to Timeline</button>
+    <div style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:#0f172a; z-index:9999; display:flex; flex-direction:column; padding:16px; box-sizing:border-box;">
       
-      <div style="text-align:center;">
-        <img src="${rank.logoUrl}" style="width:100px; height:100px; border-radius:50%; border:3px solid #f59e0b; margin-bottom:15px; object-fit:cover;">
-        <h2 style="margin:0; font-size:22px;">${rank.name}</h2>
-        <p style="color:#64748b; font-size:13px; margin-top:5px; margin-bottom:20px;">Unlocked at ${rank.min} Days</p>
+      <div style="flex:0 0 auto;">
+        <button onclick="closeLeagueDetailsPage()" style="background:none; border:none; color:#f59e0b; font-weight:bold; cursor:pointer; font-size:14px; padding:0; margin-bottom:12px;">← Back to Timeline</button>
       </div>
 
-      <h3 style="color:#f59e0b; border-bottom:1px solid #334155; padding-bottom:5px; margin-bottom:15px;">Benefits</h3>
-      <div>${benefitsItems}</div>
+      <div style="flex:0 0 auto; text-align:center; margin-bottom:12px;">
+        <img src="${rank.logoUrl}" style="width:80px; height:80px; border-radius:50%; border:3px solid #f59e0b; object-fit:cover; margin-bottom:6px;">
+        <h2 style="margin:0; font-size:20px; color:#fff;">${rank.name}</h2>
+        <p style="color:#64748b; font-size:12px; margin:2px 0 0 0;">Unlocked at ${rank.min} Days</p>
+      </div>
+
+      <div style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
+        <h3 style="color:#f59e0b; border-bottom:1px solid #334155; padding-bottom:4px; margin:0 0 10px 0; font-size:14px; flex:0 0 auto;">Benefits</h3>
+        <div style="flex:1; overflow-y:auto;">
+          ${benefitsItems}
+        </div>
+      </div>
+
     </div>
   `;
 
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   detailsPage.classList.add('active');
+  
   const navbar = document.querySelector('.navbar');
   if (navbar) navbar.style.display = 'none';
 }
 
 function closeLeagueDetailsPage() {
+  const detailsPage = document.getElementById("page-league-detail");
+  if (detailsPage) detailsPage.innerHTML = "";
+  
   const navbar = document.querySelector('.navbar');
   if (navbar) navbar.style.display = 'flex';
   showPage('page-timeline');
