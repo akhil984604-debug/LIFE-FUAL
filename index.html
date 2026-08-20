@@ -257,6 +257,7 @@
       <!-- PAGE 2: TIMELINE -->
       <div id="page-timeline" class="page">
         <h3 class="page-header">🏆 LEAGUE TIMELINE</h3>
+        <p class="timeline-sub">Click any league to view details & benefits</p>
         <div class="timeline-list" id="timelineList"></div>
       </div>
 
@@ -301,6 +302,27 @@
         </div>
       </div>
 
+      <!-- LEAGUE DETAILS MODAL -->
+      <div id="leagueDetailModal" class="modal-overlay">
+        <div class="modal-content league-modal">
+          <button class="close-modal-btn" onclick="closeLeagueModal()">✕</button>
+          
+          <div class="league-detail-header">
+            <img id="detailLeagueIcon" class="modal-league-logo" src="" alt="League Logo">
+            <h2 id="detailLeagueTitle">League Name</h2>
+            <span id="detailLeagueTime" class="badge-time">Timeline: Day 0 - 3</span>
+            <div id="detailLeaguePoints" class="badge-pts">⭐ 0 Points Required</div>
+          </div>
+
+          <div class="benefits-section">
+            <h4 class="section-subtitle">✨ Key Benefits & Unlocks</h4>
+            <ul id="detailBenefitsList" class="benefits-list"></ul>
+          </div>
+
+          <button onclick="closeLeagueModal()" class="btn-primary">Got It!</button>
+        </div>
+      </div>
+
       <!-- BOTTOM NAVIGATION MENU -->
       <div class="navbar">
         <button onclick="showPage('page-home')" class="nav-btn active">🏠 Home</button>
@@ -314,5 +336,5 @@
   </div>
   <script src="script.js"></script>
 </body>
-                                                     </html>
-                                                     
+  </html>
+  
