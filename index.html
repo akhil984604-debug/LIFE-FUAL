@@ -10,95 +10,309 @@
 <body>
   <div class="app-container">
 
-    <!-- PAGE 1: HOME -->
-    <div id="page-home" class="page active">
-      <div class="header">
-        <span class="app-title">MINDSHIELD LEAGUE</span>
-      </div>
-
-      <div class="logo-wrapper">
-        <div class="glow-ring"></div>
-        <img id="leagueIcon" class="center-logo" src="1000124813.png" alt="League Badge">
-      </div>
-      <h2 id="leagueTitle" class="league-title">Wood League</h2>
-
-      <div class="counter-card">
-        <div class="time-display">
-          <div class="time-box"><h1 id="daysCount">0</h1><span>DAYS</span></div>
-          <div class="time-box"><h1 id="hoursCount">00</h1><span>HRS</span></div>
-          <div class="time-box"><h1 id="minsCount">00</h1><span>MINS</span></div>
-          <div class="time-box"><h1 id="secsCount">00</h1><span>SECS</span></div>
-        </div>
-      </div>
-
-      <div class="action-grid">
-        <button onclick="startStreak()" id="startBtn" class="btn-start">▶ START STREAK</button>
-        <button onclick="resetStreak()" id="resetBtn" class="btn-relapse" style="display:none;">RESET (RELAPSED)</button>
-        <button onclick="openUrgeModal()" class="btn-urge-alert">🚨 URGE ALERT</button>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-box"><span>POINTS</span><h3 id="userPoints">0 PTS</h3></div>
-        <div class="stat-box"><span>NEXT LEAGUE</span><h3 id="nextRank">3 Days</h3></div>
-      </div>
-    </div>
-
-    <!-- PAGE 2: TIMELINE -->
-    <div id="page-timeline" class="page">
-      <h3 class="page-header">🏆 LEAGUE TIMELINE</h3>
-      <div class="timeline-list" id="timelineList"></div>
-    </div>
-
-    <!-- PAGE 3: MOTIVATION -->
-    <div id="page-motivation" class="page">
-      <h3 class="page-header">💡 MOTIVATION</h3>
-      <div class="quote-card">
-        <p id="quoteText">"The struggle you're in today is developing the strength you need for tomorrow."</p>
-      </div>
-      <button onclick="nextQuote()" class="btn-start">New Quote</button>
-    </div>
-
-    <!-- PAGE 4: NOTEBOOK -->
-    <div id="page-notes" class="page">
-      <h3 class="page-header">📝 PERSONAL NOTEBOOK</h3>
-      <div class="note-input-group">
-        <textarea id="noteInput" placeholder="Note down your triggers, thoughts, or victories..."></textarea>
-        <button onclick="addNote()" class="btn-start">➕ Save Note</button>
-      </div>
+    <!-- ONBOARDING FLOW CONTAINER -->
+    <div id="onboarding-container" class="onboarding-wrapper">
       
-      <div class="notes-container" id="notesList"></div>
+      <!-- Top Progress Header -->
+      <div class="onboarding-header" id="onboardHeader">
+        <button id="obBackBtn" onclick="prevOnboardingStep()">←</button>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="obProgressBar"></div>
+        </div>
+        <span class="step-indicator" id="obStepIndicator">1 of 8</span>
+      </div>
+
+      <!-- SCREEN 1: Welcome & Basic Info -->
+      <div class="ob-screen active" id="ob-screen-1">
+        <div class="ob-content">
+          <div class="badge-icon">🛡️</div>
+          <h2>Take Back Your Control</h2>
+          <p class="ob-sub">Build better habits, understand your triggers, and stay consistent.</p>
+          
+          <div class="input-group">
+            <input type="text" id="obName" placeholder="Your Name" required>
+            <div class="input-row">
+              <input type="number" id="obAge" placeholder="Age">
+              <select id="obGender">
+                <option value="" disabled selected>Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button class="btn-primary ob-next-btn" onclick="nextOnboardingStep()">Get Started →</button>
+      </div>
+
+      <!-- SCREEN 2: Your Goal -->
+      <div class="ob-screen" id="ob-screen-2">
+        <div class="ob-content">
+          <h2>What do you want to achieve?</h2>
+          <p class="ob-sub">Select your main objective</p>
+          
+          <div class="options-grid">
+            <div class="option-card" onclick="selectSingleOption('goal', 'Quit Porn', this)">
+              <span class="opt-icon">🚫</span>
+              <span>Quit Porn</span>
+            </div>
+            <div class="option-card" onclick="selectSingleOption('goal', 'Quit Masturbation', this)">
+              <span class="opt-icon">🛑</span>
+              <span>Quit Masturbation</span>
+            </div>
+            <div class="option-card" onclick="selectSingleOption('goal', 'Quit Both', this)">
+              <span class="opt-icon">⚔️</span>
+              <span>Quit Both</span>
+            </div>
+            <div class="option-card" onclick="selectSingleOption('goal', 'Reduce Frequency', this)">
+              <span class="opt-icon">📉</span>
+              <span>Reduce Frequency</span>
+            </div>
+          </div>
+        </div>
+        <button class="btn-primary ob-next-btn" onclick="nextOnboardingStep()">Continue →</button>
+      </div>
+
+      <!-- SCREEN 3: Current Pattern -->
+      <div class="ob-screen" id="ob-screen-3">
+        <div class="ob-content">
+          <h2>How often does this happen currently?</h2>
+          <p class="ob-sub">Be honest with yourself</p>
+
+          <div class="options-grid">
+            <div class="option-card" onclick="selectSingleOption('pattern', 'Daily', this)">
+              <span>Daily</span>
+            </div>
+            <div class="option-card" onclick="selectSingleOption('pattern', '4–6 times a week', this)">
+              <span>4–6 times a week</span>
+            </div>
+            <div class="option-card" onclick="selectSingleOption('pattern', '2–3 times a week', this)">
+              <span>2–3 times a week</span>
+            </div>
+            <div class="option-card" onclick="selectSingleOption('pattern', 'Once a week', this)">
+              <span>Once a week</span>
+            </div>
+            <div class="option-card" onclick="selectSingleOption('pattern', 'Less often', this)">
+              <span>Less often</span>
+            </div>
+          </div>
+        </div>
+        <button class="btn-primary ob-next-btn" onclick="nextOnboardingStep()">Continue →</button>
+      </div>
+
+      <!-- SCREEN 4: Your Triggers -->
+      <div class="ob-screen" id="ob-screen-4">
+        <div class="ob-content">
+          <h2>What usually triggers you?</h2>
+          <p class="ob-sub">Select all that apply</p>
+
+          <div class="options-grid">
+            <div class="option-card multi" onclick="toggleMultiOption('triggers', 'Boredom', this)">🥱 Boredom</div>
+            <div class="option-card multi" onclick="toggleMultiOption('triggers', 'Stress', this)">⚡ Stress</div>
+            <div class="option-card multi" onclick="toggleMultiOption('triggers', 'Loneliness', this)">🧩 Loneliness</div>
+            <div class="option-card multi" onclick="toggleMultiOption('triggers', 'Social Media', this)">📱 Social Media</div>
+            <div class="option-card multi" onclick="toggleMultiOption('triggers', 'Being Alone', this)">🏠 Being Alone</div>
+            <div class="option-card multi" onclick="toggleMultiOption('triggers', 'Late Night', this)">🌙 Late Night</div>
+          </div>
+        </div>
+        <button class="btn-primary ob-next-btn" onclick="nextOnboardingStep()">Continue →</button>
+      </div>
+
+      <!-- SCREEN 5: High-Risk Time -->
+      <div class="ob-screen" id="ob-screen-5">
+        <div class="ob-content">
+          <h2>When do urges usually hit hardest?</h2>
+          <p class="ob-sub">Pinpoint your weak moments</p>
+
+          <div class="options-grid">
+            <div class="option-card" onclick="selectSingleOption('riskTime', 'Morning', this)">🌅 Morning</div>
+            <div class="option-card" onclick="selectSingleOption('riskTime', 'Afternoon', this)">☀️ Afternoon</div>
+            <div class="option-card" onclick="selectSingleOption('riskTime', 'Evening', this)">🌆 Evening</div>
+            <div class="option-card" onclick="selectSingleOption('riskTime', 'Late Night', this)">🌙 Late Night</div>
+            <div class="option-card" onclick="selectSingleOption('riskTime', 'No specific time', this)">🎲 No specific time</div>
+          </div>
+        </div>
+        <button class="btn-primary ob-next-btn" onclick="nextOnboardingStep()">Continue →</button>
+      </div>
+
+      <!-- SCREEN 6: Target Goal -->
+      <div class="ob-screen" id="ob-screen-6">
+        <div class="ob-content">
+          <h2>How far do you want to go?</h2>
+          <p class="ob-sub">Choose your target milestone</p>
+
+          <div class="options-grid">
+            <div class="option-card premium-card" onclick="selectSingleOption('targetDays', '7 Days', this)">
+              <div>
+                <strong class="target-title">7 Days</strong>
+                <span class="target-desc">Start Strong</span>
+              </div>
+            </div>
+            <div class="option-card premium-card" onclick="selectSingleOption('targetDays', '30 Days', this)">
+              <div>
+                <strong class="target-title">30 Days</strong>
+                <span class="target-desc">Build Control</span>
+              </div>
+            </div>
+            <div class="option-card premium-card" onclick="selectSingleOption('targetDays', '60 Days', this)">
+              <div>
+                <strong class="target-title">60 Days</strong>
+                <span class="target-desc">Build Consistency</span>
+              </div>
+            </div>
+            <div class="option-card premium-card" onclick="selectSingleOption('targetDays', '90 Days', this)">
+              <div>
+                <strong class="target-title">90 Days</strong>
+                <span class="target-desc">Long-Term Change</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-primary ob-next-btn" onclick="runPersonalizationAnimation()">Create Plan →</button>
+      </div>
+
+      <!-- SCREEN 7: Personalization Animation -->
+      <div class="ob-screen" id="ob-screen-7">
+        <div class="ob-content flex-center">
+          <div class="loader-ring"></div>
+          <h2 style="margin-top:20px;">Building your plan...</h2>
+          <p class="anim-status" id="obAnimStatus">Analyzing your goals...</p>
+        </div>
+      </div>
+
+      <!-- SCREEN 8: Personalized Result -->
+      <div class="ob-screen" id="ob-screen-8">
+        <div class="ob-content">
+          <span class="plan-ready-badge">✨ Your Plan Is Ready</span>
+          <h2 id="planUserName">Welcome, Warrior!</h2>
+
+          <div class="result-summary-card">
+            <div class="summary-item">
+              <span>Goal</span>
+              <strong id="resGoal">Quit Both</strong>
+            </div>
+            <div class="summary-item">
+              <span>Target</span>
+              <strong id="resTarget">90 Days</strong>
+            </div>
+            <div class="summary-item">
+              <span>Main Trigger</span>
+              <strong id="resTrigger">Late Night</strong>
+            </div>
+            <div class="summary-item">
+              <span>Starting Level</span>
+              <strong id="resLevel">Wood League</strong>
+            </div>
+            <div class="summary-item">
+              <span>First Milestone</span>
+              <strong id="resMilestone">3 Days</strong>
+            </div>
+          </div>
+
+          <div class="focus-box">
+            <p>💡 <b>Your Focus:</b> Build control one day at a time.</p>
+          </div>
+        </div>
+        <button class="btn-primary ob-next-btn" onclick="completeOnboarding()">Start My Journey →</button>
+      </div>
+
     </div>
 
-    <!-- URGE ALERT POPUP MODAL -->
-    <div id="urgeModal" class="modal-overlay">
-      <div class="modal-content">
-        <h2 class="urge-header">🚨 URGE ALERT</h2>
-        <p class="urge-sub">Feeling an urge? Take control before it takes control of you.</p>
-        
-        <div class="reset-card">
-          <h4 class="reset-title">⚡ Quick Reset</h4>
-          <ul class="reset-list">
-            <li>💧 <b>Drink Water</b> — Refresh yourself</li>
-            <li>🏋️ <b>Move Your Body</b> — Do a quick exercise</li>
-            <li>🧘 <b>Take a Breath</b> — 2–5 min meditation</li>
-            <li>📚 <b>Shift Your Focus</b> — Read or learn something</li>
-            <li>😴 <b>Rest & Reset</b> — Take a break or sleep</li>
-          </ul>
+    <!-- MAIN APP INTERFACE -->
+    <div id="main-app-interface" style="display:none;">
+
+      <!-- PAGE 1: HOME -->
+      <div id="page-home" class="page active">
+        <div class="header">
+          <span class="app-title">MINDSHIELD LEAGUE</span>
         </div>
 
-        <button onclick="closeUrgeModal()" class="btn-got-this">💪 I'm in Control</button>
-      </div>
-    </div>
+        <div class="logo-wrapper">
+          <div class="glow-ring"></div>
+          <img id="leagueIcon" class="center-logo" src="https://i.ibb.co/1tpcH1Rg/html-render-1.png" alt="League Badge">
+        </div>
+        <h2 id="leagueTitle" class="league-title">Wood League</h2>
 
-    <!-- BOTTOM NAVIGATION MENU -->
-    <div class="navbar">
-      <button onclick="showPage('page-home')" class="nav-btn active">🏠 Home</button>
-      <button onclick="showPage('page-timeline')" class="nav-btn">🏆 Leagues</button>
-      <button onclick="showPage('page-motivation')" class="nav-btn">💡 Quotes</button>
-      <button onclick="showPage('page-notes')" class="nav-btn">📝 Notes</button>
+        <div class="counter-card">
+          <div class="time-display">
+            <div class="time-box"><h1 id="daysCount">0</h1><span>DAYS</span></div>
+            <div class="time-box"><h1 id="hoursCount">00</h1><span>HRS</span></div>
+            <div class="time-box"><h1 id="minsCount">00</h1><span>MINS</span></div>
+            <div class="time-box"><h1 id="secsCount">00</h1><span>SECS</span></div>
+          </div>
+        </div>
+
+        <div class="action-grid">
+          <button onclick="startStreak()" id="startBtn" class="btn-start">▶ START STREAK</button>
+          <button onclick="resetStreak()" id="resetBtn" class="btn-relapse" style="display:none;">RESET (RELAPSED)</button>
+          <button onclick="openUrgeModal()" class="btn-urge-alert">🚨 URGE ALERT</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-box"><span>POINTS</span><h3 id="userPoints">0 PTS</h3></div>
+          <div class="stat-box"><span>NEXT LEAGUE</span><h3 id="nextRank">3 Days</h3></div>
+        </div>
+      </div>
+
+      <!-- PAGE 2: TIMELINE -->
+      <div id="page-timeline" class="page">
+        <h3 class="page-header">🏆 LEAGUE TIMELINE</h3>
+        <div class="timeline-list" id="timelineList"></div>
+      </div>
+
+      <!-- PAGE 3: MOTIVATION -->
+      <div id="page-motivation" class="page">
+        <h3 class="page-header">💡 MOTIVATION</h3>
+        <div class="quote-card">
+          <p id="quoteText">"The struggle you're in today is developing the strength you need for tomorrow."</p>
+        </div>
+        <button onclick="nextQuote()" class="btn-start">New Quote</button>
+      </div>
+
+      <!-- PAGE 4: NOTEBOOK -->
+      <div id="page-notes" class="page">
+        <h3 class="page-header">📝 PERSONAL NOTEBOOK</h3>
+        <div class="note-input-group">
+          <textarea id="noteInput" placeholder="Note down your triggers, thoughts, or victories..."></textarea>
+          <button onclick="addNote()" class="btn-start">➕ Save Note</button>
+        </div>
+        
+        <div class="notes-container" id="notesList"></div>
+      </div>
+
+      <!-- URGE ALERT POPUP MODAL -->
+      <div id="urgeModal" class="modal-overlay">
+        <div class="modal-content">
+          <h2 class="urge-header">🚨 URGE ALERT</h2>
+          <p class="urge-sub">Feeling an urge? Take control before it takes control of you.</p>
+          
+          <div class="reset-card">
+            <h4 class="reset-title">⚡ Quick Reset</h4>
+            <ul class="reset-list">
+              <li>💧 <b>Drink Water</b> — Refresh yourself</li>
+              <li>🏋️ <b>Move Your Body</b> — Do a quick exercise</li>
+              <li>🧘 <b>Take a Breath</b> — 2–5 min meditation</li>
+              <li>📚 <b>Shift Your Focus</b> — Read or learn something</li>
+              <li>😴 <b>Rest & Reset</b> — Take a break or sleep</li>
+            </ul>
+          </div>
+
+          <button onclick="closeUrgeModal()" class="btn-got-this">💪 I'm in Control</button>
+        </div>
+      </div>
+
+      <!-- BOTTOM NAVIGATION MENU -->
+      <div class="navbar">
+        <button onclick="showPage('page-home')" class="nav-btn active">🏠 Home</button>
+        <button onclick="showPage('page-timeline')" class="nav-btn">🏆 Leagues</button>
+        <button onclick="showPage('page-motivation')" class="nav-btn">💡 Quotes</button>
+        <button onclick="showPage('page-notes')" class="nav-btn">📝 Notes</button>
+      </div>
+
     </div>
 
   </div>
   <script src="script.js"></script>
 </body>
-</html>
+                                                     </html>
+                                                     
