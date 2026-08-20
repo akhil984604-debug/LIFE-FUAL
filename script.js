@@ -387,3 +387,119 @@ renderNotes();
 setInterval(updateTimer, 1000);
 updateTimer();
                   
+// Ranks with distinct benefits for each league
+const ranks = [
+  { 
+    min: 0, max: 2, 
+    name: "Wood League", 
+    logoUrl: "https://i.ibb.co/1tpcH1Rg/html-render-1.png", 
+    next: "3 Days", 
+    benefits: [
+      "The Beginning – Clean slate & fresh mindset",
+      "Dopamine Reset Begins – Brain starts healing",
+      "Decision Made – Taking control of your focus"
+    ] 
+  },
+  { 
+    min: 3, max: 6, 
+    name: "Bronze League", 
+    logoUrl: "https://i.ibb.co/0pXyYrqB/1787144222633.png", 
+    next: "7 Days", 
+    benefits: [
+      "Testosterone Peak – Surge in natural energy",
+      "Withdrawal Phase – Cravings & mood swings appear",
+      "Initial Resistance – Building baseline willpower"
+    ] 
+  },
+  { 
+    min: 7, max: 9, 
+    name: "Silver League", 
+    logoUrl: "https://i.ibb.co/PGYLFGC6/1787149414212.png", 
+    next: "10 Days", 
+    benefits: [
+      "Clearer Mind – Reduced brain fog & better focus",
+      "Less Guilt – Emotional stability improving",
+      "Small Win – Self-confidence starts building"
+    ] 
+  },
+  { 
+    min: 10, max: 13, 
+    name: "Gold League", 
+    logoUrl: "https://i.ibb.co/Y7T2Md1T/1787149453207.png", 
+    next: "14 Days", 
+    benefits: [
+      "Energy Surge – Feeling more alert & active",
+      "Better Gym/Workout Power – Physical stamina boost",
+      "Sharper Instincts – Quick response & alertness"
+    ] 
+  },
+  { 
+    min: 14, max: 20, 
+    name: "Platinum League", 
+    logoUrl: "https://i.ibb.co/mC9TC9z2/1787149488344.png", 
+    next: "21 Days", 
+    benefits: [
+      "Urges Drop – Urges become easier to manage",
+      "Deeper Sleep – Improved REM & restful sleep",
+      "Stronger Self-Discipline – Habit loop fading"
+    ] 
+  },
+  { 
+    min: 21, max: 29, 
+    name: "Diamond League", 
+    logoUrl: "https://i.ibb.co/gb4knVNw/1787164361213.png", 
+    next: "30 Days", 
+    benefits: [
+      "Mood Balance – Lower anxiety & emotional balance",
+      "Skin & Eye Glow – Brighter face & clearer eyes",
+      "Dopamine Sensitivity – Enjoying daily simple things"
+    ] 
+  },
+  { 
+    min: 30, max: 59, 
+    name: "Master League", 
+    logoUrl: "https://i.ibb.co/NRMcNyy/1787163001657.png", 
+    next: "60 Days", 
+    benefits: [
+      "High Self-Assurance – Better posture & eye contact",
+      "1 Month Milestone – Mind rebooted & consistent",
+      "Deeper Voice Projection – Stronger vocal presence"
+    ] 
+  },
+  { 
+    min: 60, max: 99, 
+    name: "Grandmaster League", 
+    logoUrl: "https://i.ibb.co/p67r29g6/1787163062978.png", 
+    next: "100 Days", 
+    benefits: [
+      "Goal-Driven Mindset – Passion moves to real work",
+      "Memory & Focus Boost – Fast learning & retention",
+      "Magnetism – People sense your strong presence",
+      "Zero Cravings – Screen & cheap dopamine addiction gone"
+    ] 
+  },
+  { 
+    min: 100, max: 364, 
+    name: "Titan League", 
+    logoUrl: "https://i.ibb.co/4nGpPkTB/1787163120591.png", 
+    next: "365 Days", 
+    benefits: [
+      "Physical Transformation – Higher muscle tone & energy",
+      "Calm & Fearless Mind – Complete emotional composure",
+      "Unshakable Focus – Complex tasks feel smooth",
+      "Lifestyle Evolution – Disciplined, sharp & steady"
+    ] 
+  },
+  { 
+    min: 365, max: 9999, 
+    name: "Legend League", 
+    logoUrl: "https://i.ibb.co/WvG42K78/1787163182723.png", 
+    next: "Max Rank", 
+    benefits: [
+      "Full Neural Rewiring – Complete identity rebirth",
+      "Unstoppable Willpower – Total mastery over mind",
+      "Lifetime Discipline – Peak mental & physical state"
+    ] 
+  }
+];
+    
