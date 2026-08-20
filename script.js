@@ -9,7 +9,7 @@ const onboardingData = {
 
 const defaultLogo = "https://i.ibb.co/1tpcH1Rg/html-render-1.png";
 
-// Updated Ranks with exact specific benefits
+// Ranks with specific benefits
 const ranks = [
   { min: 0, max: 2, name: "Wood League", logoUrl: "https://i.ibb.co/1tpcH1Rg/html-render-1.png", next: "3 Days", benefits: ["The Start – journey begins"] },
   { min: 3, max: 6, name: "Bronze League", logoUrl: "https://i.ibb.co/0pXyYrqB/1787144222633.png", next: "7 Days", benefits: ["The Start – cravings & doubt begin", "Withdrawals Hit – urges, mood swings, brain fog"] },
@@ -244,7 +244,7 @@ function resetStreak() {
 }
 
 // ==========================================
-// 4. TIMELINE & SINGLE-SCREEN LEAGUE DETAILS (NO SCROLL)
+// 4. PREMIUM CARD MODAL LEAGUE DETAILS
 // ==========================================
 
 function renderTimeline() {
@@ -277,58 +277,59 @@ function renderTimeline() {
 function openLeagueDetailsPage(index) {
   let rank = ranks[index];
   
-  let detailsPage = document.getElementById("page-league-detail");
-  if (!detailsPage) {
-    detailsPage = document.createElement("div");
-    detailsPage.id = "page-league-detail";
-    detailsPage.className = "page";
-    document.querySelector(".app-container").appendChild(detailsPage);
+  let modalOverlay = document.getElementById("leagueModalOverlay");
+  if (!modalOverlay) {
+    modalOverlay = document.createElement("div");
+    modalOverlay.id = "leagueModalOverlay";
+    document.body.appendChild(modalOverlay);
   }
 
   let benefitsItems = rank.benefits.map(b => `
-    <div style="padding:8px 10px; background:#1e293b; border-left:3px solid #f59e0b; border-radius:6px; font-size:11px; color:#e2e8f0; line-height:1.3; margin-bottom:6px;">
-      ⚡ ${b}
+    <div style="padding:10px 12px; background:rgba(255, 255, 255, 0.03); border:1px solid rgba(245, 158, 11, 0.2); border-radius:10px; font-size:12px; color:#e2e8f0; line-height:1.4; display:flex; align-items:center; gap:8px;">
+      <span style="color:#f59e0b; font-size:14px;">⚡</span>
+      <span>${b}</span>
     </div>
   `).join("");
 
-  // Zero-Scroll Fixed Fullscreen Layout
-  detailsPage.innerHTML = `
-    <div style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:#0f172a; z-index:9999; display:flex; flex-direction:column; padding:12px; box-sizing:border-box; overflow:hidden;">
+  // Glassmorphic Premium Modal Card Styling
+  modalOverlay.style.cssText = `
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(10, 15, 29, 0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;
+  `;
+
+  modalOverlay.innerHTML = `
+    <div style="width:100%; max-width:340px; background:linear-gradient(145deg, #1e293b, #0f172a); border:1px solid rgba(245, 158, 11, 0.3); border-radius:20px; padding:20px; box-shadow:0 20px 40px rgba(0,0,0,0.6); display:flex; flex-direction:column; gap:16px; position:relative; box-sizing:border-box;">
       
-      <div style="flex:0 0 auto;">
-        <button onclick="closeLeagueDetailsPage()" style="background:none; border:none; color:#f59e0b; font-weight:bold; cursor:pointer; font-size:13px; padding:0; margin-bottom:8px;">← Back to Timeline</button>
-      </div>
+      <button onclick="closeLeagueDetailsPage()" style="position:absolute; top:14px; right:14px; background:rgba(255,255,255,0.06); border:none; color:#94a3b8; font-size:16px; width:30px; height:30px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
 
-      <div style="flex:0 0 auto; text-align:center; margin-bottom:8px;">
-        <img src="${rank.logoUrl}" style="width:65px; height:65px; border-radius:50%; border:2px solid #f59e0b; object-fit:cover; margin-bottom:4px;">
-        <h2 style="margin:0; font-size:18px; color:#fff;">${rank.name}</h2>
-        <p style="color:#64748b; font-size:11px; margin:2px 0 0 0;">Unlocked at ${rank.min} Days</p>
-      </div>
-
-      <div style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
-        <h3 style="color:#f59e0b; border-bottom:1px solid #334155; padding-bottom:4px; margin:0 0 8px 0; font-size:13px; flex:0 0 auto;">Benefits</h3>
-        <div style="flex:1; display:flex; flex-direction:column; justify-content:flex-start; overflow:hidden;">
-          ${benefitsItems}
+      <div style="text-align:center;">
+        <div style="position:relative; width:70px; height:70px; margin:0 auto 10px;">
+          <img src="${rank.logoUrl}" style="width:100%; height:100%; border-radius:50%; object-fit:cover; border:2px solid #f59e0b; box-shadow:0 0 15px rgba(245, 158, 11, 0.3);">
         </div>
+        <h2 style="margin:0; font-size:19px; font-weight:700; color:#fff; tracking-tight">${rank.name}</h2>
+        <span style="display:inline-block; margin-top:4px; padding:3px 10px; background:rgba(245, 158, 11, 0.15); color:#f59e0b; font-size:11px; font-weight:600; border-radius:12px;">Unlocked at ${rank.min} Days</span>
       </div>
+
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="font-size:11px; font-weight:600; color:#64748b; text-transform:uppercase; letter-spacing:0.8px;">League Benefits</div>
+        ${benefitsItems}
+      </div>
+
+      <button onclick="closeLeagueDetailsPage()" style="width:100%; padding:11px; background:linear-gradient(135deg, #f59e0b, #d97706); border:none; border-radius:12px; color:#0f172a; font-weight:700; font-size:13px; cursor:pointer; box-shadow:0 4px 12px rgba(245, 158, 11, 0.25);">Got it</button>
 
     </div>
   `;
 
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  detailsPage.classList.add('active');
-  
-  const navbar = document.querySelector('.navbar');
-  if (navbar) navbar.style.display = 'none';
+  modalOverlay.style.display = "flex";
 }
 
 function closeLeagueDetailsPage() {
-  const detailsPage = document.getElementById("page-league-detail");
-  if (detailsPage) detailsPage.innerHTML = "";
-  
-  const navbar = document.querySelector('.navbar');
-  if (navbar) navbar.style.display = 'flex';
-  showPage('page-timeline');
+  const modalOverlay = document.getElementById("leagueModalOverlay");
+  if (modalOverlay) {
+    modalOverlay.style.display = "none";
+    modalOverlay.innerHTML = "";
+  }
 }
 
 // ==========================================
@@ -421,4 +422,4 @@ renderTimeline();
 renderNotes();
 setInterval(updateTimer, 1000);
 updateTimer();
-    
+      
