@@ -591,4 +591,49 @@ textarea {
   color: #f59e0b;
   font-weight: bold;
   }
+/* Timeline / League Card Container */
+.timeline-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px; /* കാർഡിന്റെ അകത്തെ ഗ്യാപ്പ് കുറയ്ക്കാൻ */
+  margin-bottom: 8px; /* കാർഡുകൾ തമ്മിലുള്ള അകലം */
+  height: 60px; /* കാർഡിന്റെ ഉയരം നിയന്ത്രിക്കുന്നു */
+  border-radius: 8px;
+  background-color: #1e293b; /* നിങ്ങളുടെ തീമിന് അനുയോജ്യമായ കളർ */
+  cursor: pointer;
+}
+
+/* ലെഫ്റ്റ് സൈഡ് ലേഔട്ട് */
+.tl-left {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* ഐക്കണും ടെക്സ്റ്റും തമ്മിലുള്ള അകലം */
+}
+
+/* ഐക്കണിന്റെ വലുപ്പം കുറയ്ക്കാൻ */
+.tl-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+/* കാർഡിനുള്ളിലെ ടെക്സ്റ്റുകൾ ചെറുതാക്കാൻ */
+.tl-info h4 {
+  font-size: 14px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.tl-info p {
+  font-size: 11px;
+  margin: 2px 0 0 0;
+  color: #94a3b8;
+}
+
+/* റൈറ്റ് ആരോ ബാഡ്ജ് */
+.tl-badge {
+  font-size: 14px;
+  color: #64748b;
+    }
   
