@@ -1,450 +1,412 @@
-// Global State Data
+// ==========================================
+// 1. GLOBAL STATES & DATA
+// ==========================================
+
 let currentStep = 1;
-const totalSteps = 8;
-let userPlanData = {
-  name: '',
-  age: '',
-  gender: '',
-  goal: '',
-  pattern: '',
-  triggers: [],
-  riskTime: '',
-  targetDays: ''
+const onboardingData = {
+  name: '', age: '', gender: '', goal: '', pattern: '', triggers: [], riskTime: '', targetDays: ''
 };
 
-// Streak State Variables
-let streakStartTime = null;
-let timerInterval = null;
+const defaultLogo = "https://i.ibb.co/1tpcH1Rg/html-render-1.png";
 
-// Quotes Collection
+// Updated Ranks with exact specific benefits
+const ranks = [
+  { min: 0, max: 2, name: "Wood League", logoUrl: "https://i.ibb.co/1tpcH1Rg/html-render-1.png", next: "3 Days", benefits: ["The Start – journey begins"] },
+  { min: 3, max: 6, name: "Bronze League", logoUrl: "https://i.ibb.co/0pXyYrqB/1787144222633.png", next: "7 Days", benefits: ["The Start – cravings & doubt begin", "Withdrawals Hit – urges, mood swings, brain fog"] },
+  { min: 7, max: 9, name: "Silver League", logoUrl: "https://i.ibb.co/PGYLFGC6/1787149414212.png", next: "10 Days", benefits: ["Withdrawals Hit", "Clearer Mind – slight focus boost, less guilt", "Small Win – willpower rising"] },
+  { min: 10, max: 13, name: "Gold League", logoUrl: "https://i.ibb.co/Y7T2Md1T/1787149453207.png", next: "14 Days", benefits: ["Energy Boost – feel more alive & alert"] },
+  { min: 14, max: 20, name: "Platinum League", logoUrl: "https://i.ibb.co/mC9TC9z2/1787149488344.png", next: "21 Days", benefits: ["Better Control – urges reduce, discipline builds", "Sleep Improves – deeper, restful sleep begins"] },
+  { min: 21, max: 29, name: "Diamond League", logoUrl: "https://i.ibb.co/gb4knVNw/1787164361213.png", next: "30 Days", benefits: ["Mood Balances – less anxious, more stable", "Skin Glows – brighter skin & eyes"] },
+  { min: 30, max: 59, name: "Master League", logoUrl: "https://i.ibb.co/NRMcNyy/1787163001657.png", next: "60 Days", benefits: ["Confidence Up – better eye contact & posture", "1 Month Done – stronger, focused, consistent"] },
+  { min: 60, max: 99, name: "Grandmaster League", logoUrl: "https://i.ibb.co/p67r29g6/1787163062978.png", next: "100 Days", benefits: ["Driven – goals matter more than urges", "Memory Boost – learn & recall faster", "Noticed More – people are drawn to your energy", "No Cravings – less addiction to screens"] },
+  { min: 100, max: 364, name: "Titan League", logoUrl: "https://i.ibb.co/4nGpPkTB/1787163120591.png", next: "365 Days", benefits: ["Body Improves – muscle tone & stamina rise", "Calm Mind – better emotional control", "Hyper Focus – work/tasks feel easier", "New You – confident, sharp & unstoppable"] },
+  { min: 365, max: 9999, name: "Legend League", logoUrl: "https://i.ibb.co/WvG42K78/1787163182723.png", next: "Max Rank", benefits: ["All previous milestones + Long-term transformation / New You"] }
+];
+
 const quotes = [
-  "\"The struggle you're in today is developing the strength you need for tomorrow.\"",
-  "\"Don't swap what you want most for what you want now.\"",
-  "\"Greatness is born from self-control.\"",
-  "\"Your future self will thank you for the choices you make today.\"",
-  "\"Mastering yourself is true power.\""
-];
-let currentQuoteIdx = 0;
-
-// ALL 10 LEAGUES DATA WITH DIRECT IMAGE LINKS
-const leaguesData = [
-  {
-    name: "Wood League",
-    minDays: 0,
-    maxDays: 3,
-    points: 0,
-    icon: "https://i.ibb.co/1tpcH1Rg/html-render-1.png",
-    timelineText: "Day 0 – Day 3",
-    benefits: [
-      "Initial detox phase begins",
-      "Brain starts breaking instant gratification loops",
-      "Improved initial awareness of mental triggers",
-      "Unlock MindShield Daily Check-in Shield"
-    ]
-  },
-  {
-    name: "Bronze League",
-    minDays: 3,
-    maxDays: 7,
-    points: 100,
-    icon: "https://i.ibb.co/0pXyYrqB/1787144222633.png",
-    timelineText: "Day 3 – Day 7",
-    benefits: [
-      "Energy levels begin to stabilize",
-      "Reduction in brain fog and lethargy",
-      "Dopamine receptors start resetting",
-      "Unlock Bronze Warrior Badge"
-    ]
-  },
-  {
-    name: "Silver League",
-    minDays: 7,
-    maxDays: 14,
-    points: 300,
-    icon: "https://i.ibb.co/PGYLFGC6/1787149414212.png",
-    timelineText: "Day 7 – Day 14",
-    benefits: [
-      "Noticeable boost in self-confidence",
-      "Enhanced focus & mental clarity during daily tasks",
-      "Lowered anxiety & better eye contact",
-      "Unlock Silver Mindset Notebook Insights"
-    ]
-  },
-  {
-    name: "Gold League",
-    minDays: 14,
-    maxDays: 30,
-    points: 700,
-    icon: "https://i.ibb.co/Y7T2Md1T/1787149453207.png",
-    timelineText: "Day 14 – Day 30",
-    benefits: [
-      "Deeper sleep quality and faster physical recovery",
-      "Strong motivation to pursue physical fitness & hobbies",
-      "Significant mastery over immediate urges",
-      "Unlock Gold Guardian Title"
-    ]
-  },
-  {
-    name: "Platinum League",
-    minDays: 30,
-    maxDays: 60,
-    points: 1500,
-    icon: "https://i.ibb.co/mC9TC9z2/1787149488344.png",
-    timelineText: "Day 30 – Day 60",
-    benefits: [
-      "Major neuroplastic rewiring of reward pathways",
-      "High emotional stability & stress resistance",
-      "Naturally increased willpower in all life areas",
-      "Unlock Platinum Conqueror Status"
-    ]
-  },
-  {
-    name: "Diamond League",
-    minDays: 60,
-    maxDays: 90,
-    points: 3000,
-    icon: "https://i.ibb.co/gb4knVNw/1787164361213.png",
-    timelineText: "Day 60 – Day 90",
-    benefits: [
-      "Complete habit transformation achieved",
-      "Unshakable self-discipline & high productivity",
-      "Natural aura, confidence, and posture overhaul",
-      "Unlock Diamond Elite Badge"
-    ]
-  },
-  {
-    name: "Master League",
-    minDays: 90,
-    maxDays: 120,
-    points: 5000,
-    icon: "https://i.ibb.co/NRMcNyy/1787163001657.png",
-    timelineText: "Day 90 – Day 120",
-    benefits: [
-      "Mastery over mind and impulses",
-      "Peak focus and elevated baseline mood",
-      "Strong inner calm under extreme pressure",
-      "Unlock Master League Identity"
-    ]
-  },
-  {
-    name: "Grandmaster League",
-    minDays: 120,
-    maxDays: 180,
-    points: 8000,
-    icon: "https://i.ibb.co/p67r29g6/1787163062978.png",
-    timelineText: "Day 120 – Day 180",
-    benefits: [
-      "Total mental purity & sharp cognitive edge",
-      "High level charisma and leadership presence",
-      "Complete elimination of old toxic dependency",
-      "Unlock Grandmaster Insignia"
-    ]
-  },
-  {
-    name: "Titan League",
-    minDays: 180,
-    maxDays: 365,
-    points: 12000,
-    icon: "https://i.ibb.co/4nGpPkTB/1787163120591.png",
-    timelineText: "Day 180 – Day 365",
-    benefits: [
-      "Immense physical & mental drive",
-      "Massive success in long-term personal goals",
-      "Virtually immune to weak temporary triggers",
-      "Unlock Titan Shield Crest"
-    ]
-  },
-  {
-    name: "Legend League",
-    minDays: 365,
-    maxDays: 1000,
-    points: 25000,
-    icon: "https://i.ibb.co/WvG42K78/1787163182723.png",
-    timelineText: "1 Year & Above",
-    benefits: [
-      "Ultimate personal freedom achieved",
-      "Lifetime mastery of self-control",
-      "An inspiration for others starting the path",
-      "Unlock Legend Supreme Status"
-    ]
-  }
+  '"The struggle you\'re in today is developing the strength you need for tomorrow."',
+  '"Your future self will thank you for not giving up today."',
+  '"Control your mind, or it will control you."',
+  '"Urges are temporary, but glory is forever."',
+  '"He who conquers himself is the mightiest warrior."'
 ];
 
-// Onboarding Logic
-function updateOnboardingUI() {
-  document.querySelectorAll('.ob-screen').forEach((el, index) => {
-    el.classList.toggle('active', index + 1 === currentStep);
+// ==========================================
+// 2. ONBOARDING & SINGLE-TIME CHECK LOGIC
+// ==========================================
+
+function updateOnboardingProgress() {
+  const stepElem = document.getElementById('obStepIndicator');
+  const barElem = document.getElementById('obProgressBar');
+  if (stepElem) stepElem.innerText = `${currentStep} of 8`;
+  if (barElem) barElem.style.width = `${(currentStep / 8) * 100}%`;
+  
+  document.querySelectorAll('.ob-screen').forEach((screen, index) => {
+    screen.classList.toggle('active', index + 1 === currentStep);
   });
 
-  const progressBar = document.getElementById('obProgressBar');
-  const stepIndicator = document.getElementById('obStepIndicator');
+  const backBtn = document.getElementById('obBackBtn');
+  if (backBtn) {
+    backBtn.style.visibility = (currentStep === 1 || currentStep === 7 || currentStep === 8) ? 'hidden' : 'visible';
+  }
 
-  if (progressBar) progressBar.style.width = `${(currentStep / totalSteps) * 100}%`;
-  if (stepIndicator) stepIndicator.textContent = `${currentStep} of ${totalSteps}`;
+  const obHeader = document.getElementById('onboardHeader');
+  if (obHeader) {
+    obHeader.style.display = (currentStep === 7 || currentStep === 8) ? 'none' : 'flex';
+  }
 }
 
 function nextOnboardingStep() {
   if (currentStep === 1) {
-    const name = document.getElementById('obName').value.trim();
+    const nameInput = document.getElementById('obName');
+    const name = nameInput ? nameInput.value.trim() : '';
     if (!name) {
       alert("Please enter your name to proceed.");
       return;
     }
-    userPlanData.name = name;
-    userPlanData.age = document.getElementById('obAge').value;
-    userPlanData.gender = document.getElementById('obGender').value;
+    onboardingData.name = name;
+    
+    const ageInput = document.getElementById('obAge');
+    const genderInput = document.getElementById('obGender');
+    if (ageInput) onboardingData.age = ageInput.value;
+    if (genderInput) onboardingData.gender = genderInput.value;
   }
 
-  if (currentStep < totalSteps) {
+  if (currentStep < 8) {
     currentStep++;
-    updateOnboardingUI();
+    updateOnboardingProgress();
   }
 }
 
 function prevOnboardingStep() {
   if (currentStep > 1) {
     currentStep--;
-    updateOnboardingUI();
+    updateOnboardingProgress();
   }
 }
 
-function selectSingleOption(key, value, element) {
-  userPlanData[key] = value;
+function selectSingleOption(field, value, element) {
+  onboardingData[field] = value;
   const parent = element.parentElement;
-  parent.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+  if (parent) {
+    parent.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+  }
   element.classList.add('selected');
 }
 
-function toggleMultiOption(key, value, element) {
+function toggleMultiOption(field, value, element) {
   element.classList.toggle('selected');
   if (element.classList.contains('selected')) {
-    if (!userPlanData[key].includes(value)) userPlanData[key].push(value);
+    if (!onboardingData[field].includes(value)) onboardingData[field].push(value);
   } else {
-    userPlanData[key] = userPlanData[key].filter(v => v !== value);
+    onboardingData[field] = onboardingData[field].filter(item => item !== value);
   }
 }
 
 function runPersonalizationAnimation() {
-  currentStep = 7;
-  updateOnboardingUI();
-
-  const statusText = document.getElementById('obAnimStatus');
+  nextOnboardingStep();
+  
+  const statusElem = document.getElementById('obAnimStatus');
   const statuses = [
     "Analyzing your goals...",
-    "Mapping high-risk windows...",
-    "Creating personalized milestones...",
-    "Finalizing MindShield Plan..."
+    "Identifying your triggers...",
+    "Setting your milestones...",
+    "Creating your plan..."
   ];
 
-  let idx = 0;
+  let index = 0;
   const interval = setInterval(() => {
-    idx++;
-    if (idx < statuses.length) {
-      statusText.textContent = statuses[idx];
+    index++;
+    if (index < statuses.length) {
+      if (statusElem) statusElem.innerText = statuses[index];
     } else {
       clearInterval(interval);
-      populateResultsScreen();
-      currentStep = 8;
-      updateOnboardingUI();
+      populateResults();
+      nextOnboardingStep();
     }
   }, 700);
 }
 
-function populateResultsScreen() {
-  document.getElementById('planUserName').textContent = `Welcome, ${userPlanData.name || 'Warrior'}!`;
-  document.getElementById('resGoal').textContent = userPlanData.goal || 'Quit Both';
-  document.getElementById('resTarget').textContent = userPlanData.targetDays || '90 Days';
-  document.getElementById('resTrigger').textContent = userPlanData.triggers.length ? userPlanData.triggers[0] : 'Late Night';
-  document.getElementById('resLevel').textContent = 'Wood League';
-  document.getElementById('resMilestone').textContent = '3 Days';
+function populateResults() {
+  const nameElem = document.getElementById('planUserName');
+  const goalElem = document.getElementById('resGoal');
+  const targetElem = document.getElementById('resTarget');
+  const triggerElem = document.getElementById('resTrigger');
+
+  if (nameElem) nameElem.innerText = `Welcome, ${onboardingData.name}!`;
+  if (goalElem) goalElem.innerText = onboardingData.goal || 'Quit Habit';
+  if (targetElem) targetElem.innerText = onboardingData.targetDays || '90 Days';
+  if (triggerElem) triggerElem.innerText = onboardingData.triggers[0] || onboardingData.riskTime || 'Late Night';
 }
 
+// ഒറ്റത്തവണ മാത്രം Onboarding കാണിക്കാൻ വേണ്ടിയുള്ള ഫങ്ഷൻ
 function completeOnboarding() {
-  document.getElementById('onboarding-container').style.display = 'none';
-  document.getElementById('main-app-interface').style.display = 'flex';
-  renderTimeline();
-  loadSavedStreak();
-}
-
-// Bottom Navigation Switching
-function showPage(pageId) {
-  document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-
-  document.getElementById(pageId).classList.add('active');
+  localStorage.setItem('user_onboarding_data', JSON.stringify(onboardingData));
+  localStorage.setItem('has_completed_onboarding', 'true'); // Flag Saved
   
-  const navBtns = document.querySelectorAll('.nav-btn');
-  if(pageId === 'page-home') navBtns[0].classList.add('active');
-  if(pageId === 'page-timeline') navBtns[1].classList.add('active');
-  if(pageId === 'page-motivation') navBtns[2].classList.add('active');
-  if(pageId === 'page-notes') navBtns[3].classList.add('active');
+  const obContainer = document.getElementById('onboarding-container');
+  const mainApp = document.getElementById('main-app-interface');
+  
+  if (obContainer) obContainer.style.display = 'none';
+  if (mainApp) mainApp.style.display = 'block';
+  
+  if (!localStorage.getItem("nofap_start_date")) {
+    startStreak();
+  }
 }
 
-// Streak Timer & Mechanics
+function checkOnboardingStatus() {
+  const hasFinished = localStorage.getItem('has_completed_onboarding');
+  const obContainer = document.getElementById('onboarding-container');
+  const mainApp = document.getElementById('main-app-interface');
+
+  if (hasFinished === 'true') {
+    if (obContainer) obContainer.style.display = 'none';
+    if (mainApp) mainApp.style.display = 'block';
+  } else {
+    if (obContainer) obContainer.style.display = 'flex';
+    if (mainApp) mainApp.style.display = 'none';
+  }
+}
+
+// ==========================================
+// 3. MAIN DASHBOARD & TIMER
+// ==========================================
+
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  
+  const targetPage = document.getElementById(pageId);
+  if (targetPage) targetPage.classList.add('active');
+  
+  if (window.event && window.event.currentTarget && window.event.currentTarget.classList.contains('nav-btn')) {
+    window.event.currentTarget.classList.add('active');
+  }
+}
+
 function startStreak() {
-  streakStartTime = Date.now();
-  localStorage.setItem('mindshield_streak_start', streakStartTime);
-  document.getElementById('startBtn').style.display = 'none';
-  document.getElementById('resetBtn').style.display = 'block';
-  runTimer();
+  localStorage.setItem("nofap_start_date", new Date().toISOString());
+  updateTimer();
+}
+
+function updateTimer() {
+  let startDate = localStorage.getItem("nofap_start_date");
+
+  const startBtn = document.getElementById("startBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const leagueIcon = document.getElementById("leagueIcon");
+
+  if (!startDate) {
+    if (startBtn) startBtn.style.display = "block";
+    if (resetBtn) resetBtn.style.display = "none";
+    if (leagueIcon) leagueIcon.src = defaultLogo;
+    return;
+  }
+
+  if (startBtn) startBtn.style.display = "none";
+  if (resetBtn) resetBtn.style.display = "block";
+
+  let diffTime = Math.abs(new Date() - new Date(startDate));
+  
+  let days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  let hours = Math.floor((diffTime / (1000 * 60 * 60)) % 24);
+  let mins = Math.floor((diffTime / (1000 * 60)) % 60);
+  let secs = Math.floor((diffTime / 1000) % 60);
+
+  const daysCount = document.getElementById("daysCount");
+  const hoursCount = document.getElementById("hoursCount");
+  const minsCount = document.getElementById("minsCount");
+  const secsCount = document.getElementById("secsCount");
+  const userPoints = document.getElementById("userPoints");
+
+  if (daysCount) daysCount.innerText = days;
+  if (hoursCount) hoursCount.innerText = hours < 10 ? "0" + hours : hours;
+  if (minsCount) minsCount.innerText = mins < 10 ? "0" + mins : mins;
+  if (secsCount) secsCount.innerText = secs < 10 ? "0" + secs : secs;
+  if (userPoints) userPoints.innerText = (days * 10) + " PTS";
+
+  let currentRank = ranks.find(r => days >= r.min && days <= r.max);
+  if (currentRank) {
+    const leagueTitle = document.getElementById("leagueTitle");
+    const nextRank = document.getElementById("nextRank");
+    
+    if (leagueTitle) leagueTitle.innerText = currentRank.name;
+    if (leagueIcon) leagueIcon.src = currentRank.logoUrl || defaultLogo;
+    if (nextRank) nextRank.innerText = currentRank.next;
+  }
 }
 
 function resetStreak() {
-  if (confirm("Are you sure you want to reset your streak? Stay strong!")) {
-    streakStartTime = null;
-    localStorage.removeItem('mindshield_streak_start');
-    clearInterval(timerInterval);
-    
-    document.getElementById('daysCount').textContent = '0';
-    document.getElementById('hoursCount').textContent = '00';
-    document.getElementById('minsCount').textContent = '00';
-    document.getElementById('secsCount').textContent = '00';
-    
-    document.getElementById('userPoints').textContent = '0 PTS';
-    document.getElementById('leagueTitle').textContent = 'Wood League';
-    document.getElementById('leagueIcon').src = leaguesData[0].icon;
-    
-    document.getElementById('startBtn').style.display = 'block';
-    document.getElementById('resetBtn').style.display = 'none';
+  if (confirm("Are you sure you want to reset your streak?")) {
+    localStorage.removeItem("nofap_start_date");
+    updateTimer();
   }
 }
 
-function loadSavedStreak() {
-  const saved = localStorage.getItem('mindshield_streak_start');
-  if (saved) {
-    streakStartTime = parseInt(saved, 10);
-    document.getElementById('startBtn').style.display = 'none';
-    document.getElementById('resetBtn').style.display = 'block';
-    runTimer();
-  }
-}
+// ==========================================
+// 4. TIMELINE & LEAGUE DETAILS NAVIGATION
+// ==========================================
 
-function runTimer() {
-  if (timerInterval) clearInterval(timerInterval);
-
-  timerInterval = setInterval(() => {
-    if (!streakStartTime) return;
-
-    const now = Date.now();
-    const diff = now - streakStartTime;
-
-    const seconds = Math.floor(diff / 1000) % 60;
-    const minutes = Math.floor(diff / (1000 * 60)) % 60;
-    const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-    document.getElementById('daysCount').textContent = days;
-    document.getElementById('hoursCount').textContent = hours < 10 ? '0' + hours : hours;
-    document.getElementById('minsCount').textContent = minutes < 10 ? '0' + minutes : minutes;
-    document.getElementById('secsCount').textContent = seconds < 10 ? '0' + seconds : seconds;
-
-    // Points calculation (50 pts per day, 2 pts per hour)
-    const calculatedPoints = (days * 50) + (hours * 2);
-    document.getElementById('userPoints').textContent = `${calculatedPoints} PTS`;
-
-    updateLeagueStatus(days);
-  }, 1000);
-}
-
-function updateLeagueStatus(days) {
-  let currentLeague = leaguesData[0];
-  let nextTarget = "3 Days";
-
-  for (let i = 0; i < leaguesData.length; i++) {
-    if (days >= leaguesData[i].minDays) {
-      currentLeague = leaguesData[i];
-      nextTarget = leaguesData[i + 1] ? `${leaguesData[i + 1].minDays} Days` : "Max Rank";
-    }
-  }
-
-  document.getElementById('leagueTitle').textContent = currentLeague.name;
-  document.getElementById('leagueIcon').src = currentLeague.icon;
-  document.getElementById('nextRank').textContent = nextTarget;
-}
-
-// Timeline Rendering & Modal System
 function renderTimeline() {
-  const timelineList = document.getElementById('timelineList');
-  if (!timelineList) return;
-
-  timelineList.innerHTML = '';
+  let timelineContainer = document.getElementById("timelineList");
+  if (!timelineContainer) return;
   
-  leaguesData.forEach((league, index) => {
-    const card = document.createElement('div');
-    card.className = 'timeline-card';
-    card.onclick = () => openLeagueModal(index);
-
-    card.innerHTML = `
-      <div class="tl-left">
-        <img src="${league.icon}" class="tl-logo" alt="${league.name}">
-        <div class="tl-info">
-          <h4>${league.name}</h4>
-          <p>${league.timelineText} • ⭐ ${league.points} PTS</p>
+  timelineContainer.innerHTML = "";
+  
+  ranks.forEach((rank, index) => {
+    let rankCard = document.createElement("div");
+    rankCard.className = "rank-card";
+    rankCard.style.cursor = "pointer";
+    
+    rankCard.innerHTML = `
+      <div style="display:flex; align-items:center; gap:10px;">
+        <img src="${rank.logoUrl}" style="width:35px; height:35px; border-radius:50%; object-fit:cover;">
+        <div>
+           <div style="font-weight:bold;">${rank.name}</div>
+           <div style="font-size:11px; color:#64748b;">Target: ${rank.min} Days</div>
         </div>
       </div>
-      <div class="tl-badge">View Benefits</div>
+      <div style="color:#f59e0b; font-weight:bold;">&gt;</div>
     `;
 
-    timelineList.appendChild(card);
+    rankCard.onclick = () => openLeagueDetailsPage(index);
+    timelineContainer.appendChild(rankCard);
   });
 }
 
-function openLeagueModal(index) {
-  const league = leaguesData[index];
+function openLeagueDetailsPage(index) {
+  let rank = ranks[index];
   
-  document.getElementById('detailLeagueIcon').src = league.icon;
-  document.getElementById('detailLeagueTitle').textContent = league.name;
-  document.getElementById('detailLeagueTime').textContent = `Timeline: ${league.timelineText}`;
-  document.getElementById('detailLeaguePoints').textContent = `⭐ ${league.points} Points Required`;
+  let detailsPage = document.getElementById("page-league-detail");
+  if (!detailsPage) {
+    detailsPage = document.createElement("div");
+    detailsPage.id = "page-league-detail";
+    detailsPage.className = "page";
+    document.querySelector(".app-container").appendChild(detailsPage);
+  }
 
-  const benefitsList = document.getElementById('detailBenefitsList');
-  benefitsList.innerHTML = '';
-  
-  league.benefits.forEach(benefit => {
-    const li = document.createElement('li');
-    li.textContent = benefit;
-    benefitsList.appendChild(li);
-  });
+  let benefitsItems = rank.benefits.map(b => `
+    <div style="margin-bottom:10px; padding:12px; background:#1e293b; border-left:4px solid #f59e0b; border-radius:5px; font-size:13px; color:#e2e8f0;">
+      ⚡ ${b}
+    </div>
+  `).join("");
 
-  document.getElementById('leagueDetailModal').classList.add('active');
+  detailsPage.innerHTML = `
+    <div style="padding:10px 0;">
+      <button onclick="closeLeagueDetailsPage()" style="background:none; border:none; color:#f59e0b; font-weight:bold; cursor:pointer; margin-bottom:20px; font-size:14px;">← Back to Timeline</button>
+      
+      <div style="text-align:center;">
+        <img src="${rank.logoUrl}" style="width:100px; height:100px; border-radius:50%; border:3px solid #f59e0b; margin-bottom:15px; object-fit:cover;">
+        <h2 style="margin:0; font-size:22px;">${rank.name}</h2>
+        <p style="color:#64748b; font-size:13px; margin-top:5px; margin-bottom:20px;">Unlocked at ${rank.min} Days</p>
+      </div>
+
+      <h3 style="color:#f59e0b; border-bottom:1px solid #334155; padding-bottom:5px; margin-bottom:15px;">Benefits</h3>
+      <div>${benefitsItems}</div>
+    </div>
+  `;
+
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  detailsPage.classList.add('active');
+  const navbar = document.querySelector('.navbar');
+  if (navbar) navbar.style.display = 'none';
 }
 
-function closeLeagueModal() {
-  document.getElementById('leagueDetailModal').classList.remove('active');
+function closeLeagueDetailsPage() {
+  const navbar = document.querySelector('.navbar');
+  if (navbar) navbar.style.display = 'flex';
+  showPage('page-timeline');
 }
 
-// Urge Modal Logic
+// ==========================================
+// 5. URGE ALERT & NOTES SYSTEM
+// ==========================================
+
 function openUrgeModal() {
-  document.getElementById('urgeModal').classList.add('active');
+  const modal = document.getElementById("urgeModal");
+  if (modal) modal.classList.add("active");
 }
 
 function closeUrgeModal() {
-  document.getElementById('urgeModal').classList.remove('active');
+  const modal = document.getElementById("urgeModal");
+  if (modal) modal.classList.remove("active");
 }
 
-// Quotes Logic
 function nextQuote() {
-  currentQuoteIdx = (currentQuoteIdx + 1) % quotes.length;
-  document.getElementById('quoteText').textContent = quotes[currentQuoteIdx];
+  let randomIndex = Math.floor(Math.random() * quotes.length);
+  const quoteElem = document.getElementById("quoteText");
+  if (quoteElem) quoteElem.innerText = quotes[randomIndex];
 }
 
-// Notebook Logic
+function getStoredNotes() {
+  let notes = localStorage.getItem("user_nofap_notes_list");
+  return notes ? JSON.parse(notes) : [];
+}
+
+function renderNotes() {
+  let notes = getStoredNotes();
+  let notesContainer = document.getElementById("notesList");
+  if (!notesContainer) return;
+  
+  notesContainer.innerHTML = "";
+
+  if (notes.length === 0) {
+    notesContainer.innerHTML = "<p style='font-size:12px; color:#64748b; text-align:center; margin-top:10px;'>No notes saved yet.</p>";
+    return;
+  }
+
+  notes.forEach((item, index) => {
+    let noteCard = document.createElement("div");
+    noteCard.className = "note-card";
+    noteCard.innerHTML = `
+      <p>${item.text}</p>
+      <div class="note-footer">
+        <span>${item.date}</span>
+        <button onclick="deleteNote(${index})" class="btn-delete-note">🗑️ Delete</button>
+      </div>
+    `;
+    notesContainer.appendChild(noteCard);
+  });
+}
+
 function addNote() {
-  const input = document.getElementById('noteInput');
-  const text = input.value.trim();
-  if (!text) return;
+  let noteInput = document.getElementById("noteInput");
+  if (!noteInput) return;
+  
+  let noteText = noteInput.value.trim();
+  if (!noteText) {
+    alert("Please write something before saving!");
+    return;
+  }
 
-  const notesList = document.getElementById('notesList');
-  const card = document.createElement('div');
-  card.className = 'note-card';
+  let notes = getStoredNotes();
+  notes.unshift({
+    text: noteText,
+    date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+  });
 
-  const timeStr = new Date().toLocaleString([], { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric' });
-  card.innerHTML = `
-    <p>${text}</p>
-    <div class="note-time">${timeStr}</div>
-  `;
+  localStorage.setItem("user_nofap_notes_list", JSON.stringify(notes));
+  noteInput.value = "";
+  renderNotes();
+}
 
-  notesList.prepend(card);
-  input.value = '';
-      }
-    
+function deleteNote(index) {
+  if (confirm("Delete this note?")) {
+    let notes = getStoredNotes();
+    notes.splice(index, 1);
+    localStorage.setItem("user_nofap_notes_list", JSON.stringify(notes));
+    renderNotes();
+  }
+}
+
+// ==========================================
+// 6. INITIALIZATION CALLS
+// ==========================================
+
+checkOnboardingStatus();
+renderTimeline();
+renderNotes();
+setInterval(updateTimer, 1000);
+updateTimer();
+  
