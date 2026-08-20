@@ -1,145 +1,170 @@
+// Onboarding State
+let currentStep = 1;
+const onboardingData = {
+  name: '',
+  age: '',
+  gender: '',
+  goal: '',
+  pattern: '',
+  triggers: [],
+  riskTime: '',
+  targetDays: ''
+};
+
 // Default logo (Wood League)
 const defaultLogo = "https://i.ibb.co/1tpcH1Rg/html-render-1.png";
 
-// 10 Leagues with Direct Image Links & Short Professional Benefits
+// 10 Leagues with Direct Image Links & Benefits
 const ranks = [
-  { 
-    min: 0, 
-    max: 2, 
-    name: "Wood League", 
-    logoUrl: "https://i.ibb.co/1tpcH1Rg/html-render-1.png", 
-    next: "3 Days",
-    benefits: [
-      "Journey Begins"
-    ]
-  },
-  { 
-    min: 3, 
-    max: 6, 
-    name: "Bronze League", 
-    logoUrl: "https://i.ibb.co/0pXyYrqB/1787144222633.png", 
-    next: "7 Days",
-    benefits: [
-      "Cravings Begin",
-      "Brain Fog"
-    ]
-  },
-  { 
-    min: 7, 
-    max: 9, 
-    name: "Silver League", 
-    logoUrl: "https://i.ibb.co/PGYLFGC6/1787149414212.png", 
-    next: "10 Days",
-    benefits: [
-      "Clearer Mind",
-      "Willpower Up"
-    ]
-  },
-  { 
-    min: 10, 
-    max: 13, 
-    name: "Gold League", 
-    logoUrl: "https://i.ibb.co/Y7T2Md1T/1787149453207.png", 
-    next: "14 Days",
-    benefits: [
-      "Energy Boost"
-    ]
-  },
-  { 
-    min: 14, 
-    max: 20, 
-    name: "Platinum League", 
-    logoUrl: "https://i.ibb.co/mC9TC9z2/1787149488344.png", 
-    next: "21 Days",
-    benefits: [
-      "Better Control",
-      "Better Sleep"
-    ]
-  },
-  { 
-    min: 21, 
-    max: 29, 
-    name: "Diamond League", 
-    logoUrl: "https://i.ibb.co/gb4knVNw/1787164361213.png", 
-    next: "30 Days",
-    benefits: [
-      "Stable Mood",
-      "Skin Glow"
-    ]
-  },
-  { 
-    min: 30, 
-    max: 59, 
-    name: "Master League", 
-    logoUrl: "https://i.ibb.co/NRMcNyy/1787163001657.png", 
-    next: "60 Days",
-    benefits: [
-      "Confidence Up",
-      "Stronger Focus"
-    ]
-  },
-  { 
-    min: 60, 
-    max: 99, 
-    name: "Grandmaster League", 
-    logoUrl: "https://i.ibb.co/p67r29g6/1787163062978.png", 
-    next: "100 Days",
-    benefits: [
-      "Driven Mind",
-      "Better Memory"
-    ]
-  },
-  { 
-    min: 100, 
-    max: 364, 
-    name: "Titan League", 
-    logoUrl: "https://i.ibb.co/4nGpPkTB/1787163120591.png", 
-    next: "365 Days",
-    benefits: [
-      "Better Body",
-      "Calm Mind",
-      "Hyper Focus"
-    ]
-  },
-  { 
-    min: 365, 
-    max: 9999, 
-    name: "Legend League", 
-    logoUrl: "https://i.ibb.co/WvG42K78/1787163182723.png", 
-    next: "Max Rank",
-    benefits: [
-      "Long-Term Transformation"
-    ]
-  }
+  { min: 0, max: 2, name: "Wood League", logoUrl: "https://i.ibb.co/1tpcH1Rg/html-render-1.png", next: "3 Days", benefits: ["Journey Begins"] },
+  { min: 3, max: 6, name: "Bronze League", logoUrl: "https://i.ibb.co/0pXyYrqB/1787144222633.png", next: "7 Days", benefits: ["Cravings Begin", "Brain Fog"] },
+  { min: 7, max: 9, name: "Silver League", logoUrl: "https://i.ibb.co/PGYLFGC6/1787149414212.png", next: "10 Days", benefits: ["Clearer Mind", "Willpower Up"] },
+  { min: 10, max: 13, name: "Gold League", logoUrl: "https://i.ibb.co/Y7T2Md1T/1787149453207.png", next: "14 Days", benefits: ["Energy Boost"] },
+  { min: 14, max: 20, name: "Platinum League", logoUrl: "https://i.ibb.co/mC9TC9z2/1787149488344.png", next: "21 Days", benefits: ["Better Control", "Better Sleep"] },
+  { min: 21, max: 29, name: "Diamond League", logoUrl: "https://i.ibb.co/gb4knVNw/1787164361213.png", next: "30 Days", benefits: ["Stable Mood", "Skin Glow"] },
+  { min: 30, max: 59, name: "Master League", logoUrl: "https://i.ibb.co/NRMcNyy/1787163001657.png", next: "60 Days", benefits: ["Confidence Up", "Stronger Focus"] },
+  { min: 60, max: 99, name: "Grandmaster League", logoUrl: "https://i.ibb.co/p67r29g6/1787163062978.png", next: "100 Days", benefits: ["Driven Mind", "Better Memory"] },
+  { min: 100, max: 364, name: "Titan League", logoUrl: "https://i.ibb.co/4nGpPkTB/1787163120591.png", next: "365 Days", benefits: ["Better Body", "Calm Mind", "Hyper Focus"] },
+  { min: 365, max: 9999, name: "Legend League", logoUrl: "https://i.ibb.co/WvG42K78/1787163182723.png", next: "Max Rank", benefits: ["Long-Term Transformation"] }
 ];
 
-// Motivation Quotes
 const quotes = [
   '"The struggle you\'re in today is developing the strength you need for tomorrow."',
   '"Your future self will thank you for not giving up today."',
   '"Control your mind, or it will control you."',
   '"Urges are temporary, but glory is forever."',
-  '"He who conquers himself is the mightiest warrior."',
-  '"Don\'t trade what you want most for what you want now."',
-  '"Pain is temporary. Quitting lasts forever."',
-  '"Discipline is choosing between what you want now and what you want most."',
-  '"A year from now you may wish you had started today."',
-  '"Every time you resist an urge, you build a stronger mind."',
-  '"Greatness is built in the moments when no one is watching."',
-  '"Master your emotions before they master you."',
-  '"Success is not given. It is earned through self-control."',
-  '"Small daily victories lead to massive life changes."',
-  '"The pain of discipline is far less than the pain of regret."'
+  '"He who conquers himself is the mightiest warrior."'
 ];
+
+/* --- ONBOARDING LOGIC --- */
+
+function updateOnboardingProgress() {
+  document.getElementById('obStepIndicator').innerText = `${currentStep} of 8`;
+  document.getElementById('obProgressBar').style.width = `${(currentStep / 8) * 100}%`;
+  
+  document.querySelectorAll('.ob-screen').forEach((screen, index) => {
+    if (index + 1 === currentStep) {
+      screen.classList.add('active');
+    } else {
+      screen.classList.remove('active');
+    }
+  });
+
+  const backBtn = document.getElementById('obBackBtn');
+  if (currentStep === 1 || currentStep === 7 || currentStep === 8) {
+    backBtn.style.visibility = 'hidden';
+  } else {
+    backBtn.style.visibility = 'visible';
+  }
+
+  if (currentStep === 7 || currentStep === 8) {
+    document.getElementById('onboardHeader').style.display = 'none';
+  } else {
+    document.getElementById('onboardHeader').style.display = 'flex';
+  }
+}
+
+function nextOnboardingStep() {
+  if (currentStep === 1) {
+    const name = document.getElementById('obName').value.trim();
+    if (!name) {
+      alert("Please enter your name to proceed.");
+      return;
+    }
+    onboardingData.name = name;
+    onboardingData.age = document.getElementById('obAge').value;
+    onboardingData.gender = document.getElementById('obGender').value;
+  }
+
+  if (currentStep < 8) {
+    currentStep++;
+    updateOnboardingProgress();
+  }
+}
+
+function prevOnboardingStep() {
+  if (currentStep > 1) {
+    currentStep--;
+    updateOnboardingProgress();
+  }
+}
+
+function selectSingleOption(field, value, element) {
+  onboardingData[field] = value;
+  const parent = element.parentElement;
+  parent.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+  element.classList.add('selected');
+}
+
+function toggleMultiOption(field, value, element) {
+  element.classList.toggle('selected');
+  if (element.classList.contains('selected')) {
+    if (!onboardingData[field].includes(value)) onboardingData[field].push(value);
+  } else {
+    onboardingData[field] = onboardingData[field].filter(item => item !== value);
+  }
+}
+
+function runPersonalizationAnimation() {
+  nextOnboardingStep(); // Moves to step 7
+  
+  const statusElem = document.getElementById('obAnimStatus');
+  const statuses = [
+    "Analyzing your goals...",
+    "Identifying your triggers...",
+    "Setting your milestones...",
+    "Creating your plan..."
+  ];
+
+  let index = 0;
+  const interval = setInterval(() => {
+    index++;
+    if (index < statuses.length) {
+      statusElem.innerText = statuses[index];
+    } else {
+      clearInterval(interval);
+      populateResults();
+      nextOnboardingStep(); // Moves to step 8
+    }
+  }, 700);
+}
+
+function populateResults() {
+  document.getElementById('planUserName').innerText = `Welcome, ${onboardingData.name}!`;
+  document.getElementById('resGoal').innerText = onboardingData.goal || 'Quit Both';
+  document.getElementById('resTarget').innerText = onboardingData.targetDays || '90 Days';
+  document.getElementById('resTrigger').innerText = onboardingData.triggers[0] || onboardingData.riskTime || 'Late Night';
+}
+
+function completeOnboarding() {
+  localStorage.setItem('user_onboarding_data', JSON.stringify(onboardingData));
+  document.getElementById('onboarding-container').style.display = 'none';
+  document.getElementById('main-app-interface').style.display = 'flex';
+  
+  if (!localStorage.getItem("nofap_start_date")) {
+    startStreak();
+  }
+}
+
+function checkOnboardingStatus() {
+  const data = localStorage.getItem('user_onboarding_data');
+  if (data) {
+    document.getElementById('onboarding-container').style.display = 'none';
+    document.getElementById('main-app-interface').style.display = 'flex';
+  } else {
+    document.getElementById('onboarding-container').style.display = 'flex';
+    document.getElementById('main-app-interface').style.display = 'none';
+  }
+}
+
+/* --- DASHBOARD LOGIC --- */
 
 function showPage(pageId) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   
   const targetPage = document.getElementById(pageId);
-  if (targetPage) {
-    targetPage.classList.add('active');
-  }
+  if (targetPage) targetPage.classList.add('active');
   
   if (window.event && window.event.currentTarget && window.event.currentTarget.classList.contains('nav-btn')) {
     window.event.currentTarget.classList.add('active');
@@ -199,7 +224,6 @@ function resetStreak() {
   }
 }
 
-/* --- URGE ALERT MODAL --- */
 function openUrgeModal() {
   document.getElementById("urgeModal").classList.add("active");
 }
@@ -213,7 +237,6 @@ function nextQuote() {
   document.getElementById("quoteText").innerText = quotes[randomIndex];
 }
 
-/* --- RENDER TIMELINE WITH CLICKABLE LEAGUES --- */
 function renderTimeline() {
   let timelineContainer = document.getElementById("timelineList");
   if (!timelineContainer) return;
@@ -234,20 +257,16 @@ function renderTimeline() {
       <b>${daysText}</b>
     `;
 
-    // Click event to open dedicated League Details Page
     rankCard.onclick = () => openLeagueDetailsPage(index);
-    
     timelineContainer.appendChild(rankCard);
   });
 }
 
-/* --- OPEN SEPARATE LEAGUE DETAILS PAGE --- */
 function openLeagueDetailsPage(index) {
   let rank = ranks[index];
   
   let detailsPage = document.getElementById("page-league-detail");
   if (!detailsPage) {
-    // Create separate page container dynamically if missing
     detailsPage = document.createElement("div");
     detailsPage.id = "page-league-detail";
     detailsPage.className = "page";
@@ -292,15 +311,12 @@ function openLeagueDetailsPage(index) {
 
 function closeLeagueDetailsPage() {
   showPage("page-timeline");
-  
-  // Highlight Timeline button in navbar
   document.querySelectorAll('.nav-btn').forEach((b, idx) => {
     if (idx === 1) b.classList.add('active');
     else b.classList.remove('active');
   });
 }
 
-/* --- MULTIPLE NOTES SYSTEM --- */
 function getStoredNotes() {
   let notes = localStorage.getItem("user_nofap_notes_list");
   return notes ? JSON.parse(notes) : [];
@@ -361,8 +377,10 @@ function deleteNote(index) {
   }
 }
 
-// Initial Calls
+// Initial Run
+checkOnboardingStatus();
 renderTimeline();
 renderNotes();
 setInterval(updateTimer, 1000);
 updateTimer();
+                                 
