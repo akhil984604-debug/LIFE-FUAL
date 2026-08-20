@@ -244,7 +244,7 @@ function resetStreak() {
 }
 
 // ==========================================
-// 4. PREMIUM CARD MODAL LEAGUE DETAILS
+// 4. TIMELINE & IN-APP LEAGUE DETAILS MODAL
 // ==========================================
 
 function renderTimeline() {
@@ -255,80 +255,44 @@ function renderTimeline() {
   
   ranks.forEach((rank, index) => {
     let rankCard = document.createElement("div");
-    rankCard.className = "rank-card";
-    rankCard.style.cursor = "pointer";
+    rankCard.className = "timeline-card";
     
     rankCard.innerHTML = `
-      <div style="display:flex; align-items:center; gap:10px;">
-        <img src="${rank.logoUrl}" style="width:35px; height:35px; border-radius:50%; object-fit:cover;">
-        <div>
-           <div style="font-weight:bold;">${rank.name}</div>
-           <div style="font-size:11px; color:#64748b;">Target: ${rank.min} Days</div>
+      <div class="tl-left">
+        <img src="${rank.logoUrl}" class="tl-logo" alt="${rank.name}">
+        <div class="tl-info">
+           <h4>${rank.name}</h4>
+           <p>Target: ${rank.min} Days</p>
         </div>
       </div>
-      <div style="color:#f59e0b; font-weight:bold;">&gt;</div>
+      <div class="tl-badge">&gt;</div>
     `;
 
-    rankCard.onclick = () => openLeagueDetailsPage(index);
+    rankCard.onclick = () => openLeagueModal(index);
     timelineContainer.appendChild(rankCard);
   });
 }
 
-function openLeagueDetailsPage(index) {
+function openLeagueModal(index) {
   let rank = ranks[index];
-  
-  let modalOverlay = document.getElementById("leagueModalOverlay");
-  if (!modalOverlay) {
-    modalOverlay = document.createElement("div");
-    modalOverlay.id = "leagueModalOverlay";
-    document.body.appendChild(modalOverlay);
-  }
+  let modal = document.getElementById("leagueDetailModal");
+  if (!modal) return;
 
-  let benefitsItems = rank.benefits.map(b => `
-    <div style="padding:10px 12px; background:rgba(255, 255, 255, 0.03); border:1px solid rgba(245, 158, 11, 0.2); border-radius:10px; font-size:12px; color:#e2e8f0; line-height:1.4; display:flex; align-items:center; gap:8px;">
-      <span style="color:#f59e0b; font-size:14px;">⚡</span>
-      <span>${b}</span>
-    </div>
-  `).join("");
+  document.getElementById("detailLeagueIcon").src = rank.logoUrl || defaultLogo;
+  document.getElementById("detailLeagueTitle").innerText = rank.name;
+  document.getElementById("detailLeagueTime").innerText = `Timeline: ${rank.min} - ${rank.max} Days`;
+  document.getElementById("detailLeaguePoints").innerText = `⭐ ${rank.min * 10} Points Required`;
 
-  // Glassmorphic Premium Modal Card Styling
-  modalOverlay.style.cssText = `
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(10, 15, 29, 0.82); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;
-  `;
+  let benefitsList = document.getElementById("detailBenefitsList");
+  benefitsList.innerHTML = rank.benefits.map(b => `<li>⚡ ${b}</li>`).join("");
 
-  modalOverlay.innerHTML = `
-    <div style="width:100%; max-width:340px; background:linear-gradient(145deg, #1e293b, #0f172a); border:1px solid rgba(245, 158, 11, 0.3); border-radius:20px; padding:20px; box-shadow:0 20px 40px rgba(0,0,0,0.6); display:flex; flex-direction:column; gap:16px; position:relative; box-sizing:border-box;">
-      
-      <button onclick="closeLeagueDetailsPage()" style="position:absolute; top:14px; right:14px; background:rgba(255,255,255,0.06); border:none; color:#94a3b8; font-size:16px; width:30px; height:30px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
-
-      <div style="text-align:center;">
-        <div style="position:relative; width:70px; height:70px; margin:0 auto 10px;">
-          <img src="${rank.logoUrl}" style="width:100%; height:100%; border-radius:50%; object-fit:cover; border:2px solid #f59e0b; box-shadow:0 0 15px rgba(245, 158, 11, 0.3);">
-        </div>
-        <h2 style="margin:0; font-size:19px; font-weight:700; color:#fff; tracking-tight">${rank.name}</h2>
-        <span style="display:inline-block; margin-top:4px; padding:3px 10px; background:rgba(245, 158, 11, 0.15); color:#f59e0b; font-size:11px; font-weight:600; border-radius:12px;">Unlocked at ${rank.min} Days</span>
-      </div>
-
-      <div style="display:flex; flex-direction:column; gap:8px;">
-        <div style="font-size:11px; font-weight:600; color:#64748b; text-transform:uppercase; letter-spacing:0.8px;">League Benefits</div>
-        ${benefitsItems}
-      </div>
-
-      <button onclick="closeLeagueDetailsPage()" style="width:100%; padding:11px; background:linear-gradient(135deg, #f59e0b, #d97706); border:none; border-radius:12px; color:#0f172a; font-weight:700; font-size:13px; cursor:pointer; box-shadow:0 4px 12px rgba(245, 158, 11, 0.25);">Got it</button>
-
-    </div>
-  `;
-
-  modalOverlay.style.display = "flex";
+  modal.classList.add("active");
 }
 
-function closeLeagueDetailsPage() {
-  const modalOverlay = document.getElementById("leagueModalOverlay");
-  if (modalOverlay) {
-    modalOverlay.style.display = "none";
-    modalOverlay.innerHTML = "";
+function closeLeagueModal() {
+  let modal = document.getElementById("leagueDetailModal");
+  if (modal) {
+    modal.classList.remove("active");
   }
 }
 
@@ -374,9 +338,9 @@ function renderNotes() {
     noteCard.className = "note-card";
     noteCard.innerHTML = `
       <p>${item.text}</p>
-      <div class="note-footer">
-        <span>${item.date}</span>
-        <button onclick="deleteNote(${index})" class="btn-delete-note">🗑️ Delete</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
+        <span class="note-time">${item.date}</span>
+        <button onclick="deleteNote(${index})" style="background:none; border:none; color:#ef4444; font-size:10px; cursor:pointer;">🗑️ Delete</button>
       </div>
     `;
     notesContainer.appendChild(noteCard);
@@ -422,4 +386,4 @@ renderTimeline();
 renderNotes();
 setInterval(updateTimer, 1000);
 updateTimer();
-      
+    
