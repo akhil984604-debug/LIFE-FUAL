@@ -1,109 +1,392 @@
-// ==========================================
-// 1. GLOBAL STATES & DATA
-// ==========================================
-
+// Global State Data
 let currentStep = 1;
-const onboardingData = {
-  name: '', age: '', gender: '', goal: '', pattern: '', triggers: [], riskTime: '', targetDays: ''
+const totalSteps = 8;
+let userPlanData = {
+  name: '',
+  age: '',
+  gender: '',
+  goal: '',
+  pattern: '',
+  triggers: [],
+  riskTime: '',
+  targetDays: ''
 };
 
-const defaultLogo = "https://i.ibb.co/1tpcH1Rg/html-render-1.png";
+// Streak State Variables
+let streakStartTime = null;
+let timerInterval = null;
 
-// Updated Ranks with your exact specific benefits
-const ranks = [
-  { min: 0, name: "Wood League", logoUrl: "https://i.ibb.co/1tpcH1Rg/html-render-1.png", next: "3 Days", benefits: ["The Start – journey begins"] },
-  { min: 3, name: "Bronze League", logoUrl: "https://i.ibb.co/0pXyYrqB/1787144222633.png", next: "7 Days", benefits: ["The Start – cravings & doubt begin", "Withdrawals Hit – urges, mood swings, brain fog"] },
-  { min: 7, name: "Silver League", logoUrl: "https://i.ibb.co/PGYLFGC6/1787149414212.png", next: "10 Days", benefits: ["Withdrawals Hit", "Clearer Mind – slight focus boost, less guilt", "Small Win – willpower rising"] },
-  { min: 10, name: "Gold League", logoUrl: "https://i.ibb.co/Y7T2Md1T/1787149453207.png", next: "14 Days", benefits: ["Energy Boost – feel more alive & alert"] },
-  { min: 14, name: "Platinum League", logoUrl: "https://i.ibb.co/mC9TC9z2/1787149488344.png", next: "21 Days", benefits: ["Better Control – urges reduce, discipline builds", "Sleep Improves – deeper, restful sleep begins"] },
-  { min: 21, name: "Diamond League", logoUrl: "https://i.ibb.co/gb4knVNw/1787164361213.png", next: "30 Days", benefits: ["Mood Balances – less anxious, more stable", "Skin Glows – brighter skin & eyes"] },
-  { min: 30, name: "Master League", logoUrl: "https://i.ibb.co/NRMcNyy/1787163001657.png", next: "60 Days", benefits: ["Confidence Up – better eye contact & posture", "1 Month Done – stronger, focused, consistent"] },
-  { min: 60, name: "Grandmaster League", logoUrl: "https://i.ibb.co/p67r29g6/1787163062978.png", next: "100 Days", benefits: ["Driven – goals matter more than urges", "Memory Boost – learn & recall faster", "Noticed More – people are drawn to your energy", "No Cravings – less addiction to screens"] },
-  { min: 100, name: "Titan League", logoUrl: "https://i.ibb.co/4nGpPkTB/1787163120591.png", next: "365 Days", benefits: ["Body Improves – muscle tone & stamina rise", "Calm Mind – better emotional control", "Hyper Focus – work/tasks feel easier", "New You – confident, sharp & unstoppable"] },
-  { min: 365, name: "Legend League", logoUrl: "https://i.ibb.co/WvG42K78/1787163182723.png", next: "Max Rank", benefits: ["All previous milestones + Long-term transformation / New You"] }
+// Quotes Collection
+const quotes = [
+  "\"The struggle you're in today is developing the strength you need for tomorrow.\"",
+  "\"Don't swap what you want most for what you want now.\"",
+  "\"Greatness is born from self-control.\"",
+  "\"Your future self will thank you for the choices you make today.\"",
+  "\"Mastering yourself is true power.\""
+];
+let currentQuoteIdx = 0;
+
+// League Data Configuration with Icons, Timeline, Points and Detailed Benefits
+const leaguesData = [
+  {
+    name: "Wood League",
+    minDays: 0,
+    maxDays: 3,
+    points: 0,
+    icon: "https://i.ibb.co/1tpcH1Rg/html-render-1.png",
+    timelineText: "Day 0 – Day 3",
+    benefits: [
+      "Initial detox phase begins",
+      "Brain starts breaking instant gratification loops",
+      "Improved initial awareness of mental triggers",
+      "Unlock MindShield Daily Check-in Shield"
+    ]
+  },
+  {
+    name: "Bronze League",
+    minDays: 3,
+    maxDays: 7,
+    points: 100,
+    icon: "https://i.ibb.co/1tpcH1Rg/html-render-1.png",
+    timelineText: "Day 3 – Day 7",
+    benefits: [
+      "Energy levels begin to stabilize",
+      "Reduction in brain fog and lethargy",
+      " Dopamine receptors start resetting",
+      "Unlock Bronze Warrior Badge"
+    ]
+  },
+  {
+    name: "Silver League",
+    minDays: 7,
+    maxDays: 14,
+    points: 300,
+    icon: "https://i.ibb.co/1tpcH1Rg/html-render-1.png",
+    timelineText: "Day 7 – Day 14",
+    benefits: [
+      "Noticeable boost in self-confidence",
+      "Enhanced focus & mental clarity during daily tasks",
+      "Lowered anxiety & better eye contact",
+      "Unlock Silver Mindset Notebook Insights"
+    ]
+  },
+  {
+    name: "Gold League",
+    minDays: 14,
+    maxDays: 30,
+    points: 700,
+    icon: "https://i.ibb.co/1tpcH1Rg/html-render-1.png",
+    timelineText: "Day 14 – Day 30",
+    benefits: [
+      "Deeper sleep quality and faster physical recovery",
+      "Strong motivation to pursue physical fitness & hobbies",
+      "Significant mastery over immediate urges",
+      "Unlock Gold Guardian Title"
+    ]
+  },
+  {
+    name: "Platinum League",
+    minDays: 30,
+    maxDays: 60,
+    points: 1500,
+    icon: "https://i.ibb.co/1tpcH1Rg/html-render-1.png",
+    timelineText: "Day 30 – Day 60",
+    benefits: [
+      "Major neuroplastic rewiring of reward pathways",
+      "High emotional stability & stress resistance",
+      "Naturally increased willpower in all life areas",
+      "Unlock Platinum Conqueror Status"
+    ]
+  },
+  {
+    name: "Diamond League",
+    minDays: 60,
+    maxDays: 90,
+    points: 3000,
+    icon: "https://i.ibb.co/1tpcH1Rg/html-render-1.png",
+    timelineText: "Day 60 – Day 90",
+    benefits: [
+      "Complete habit transformation achieved",
+      "Unshakable self-discipline & high productivity",
+      "Natural aura, confidence, and posture overhaul",
+      "Unlock Ultimate Master League Elite Badge"
+    ]
+  }
 ];
 
-// ==========================================
-// 2. TIMELINE & LEAGUE DETAILS NAVIGATION
-// ==========================================
+// Onboarding Logic
+function updateOnboardingUI() {
+  document.querySelectorAll('.ob-screen').forEach((el, index) => {
+    el.classList.toggle('active', index + 1 === currentStep);
+  });
 
-function renderTimeline() {
-  let timelineContainer = document.getElementById("timelineList");
-  if (!timelineContainer) return;
+  const progressBar = document.getElementById('obProgressBar');
+  const stepIndicator = document.getElementById('obStepIndicator');
+
+  if (progressBar) progressBar.style.width = `${(currentStep / totalSteps) * 100}%`;
+  if (stepIndicator) stepIndicator.textContent = `${currentStep} of ${totalSteps}`;
+}
+
+function nextOnboardingStep() {
+  if (currentStep === 1) {
+    const name = document.getElementById('obName').value.trim();
+    if (!name) {
+      alert("Please enter your name to proceed.");
+      return;
+    }
+    userPlanData.name = name;
+    userPlanData.age = document.getElementById('obAge').value;
+    userPlanData.gender = document.getElementById('obGender').value;
+  }
+
+  if (currentStep < totalSteps) {
+    currentStep++;
+    updateOnboardingUI();
+  }
+}
+
+function prevOnboardingStep() {
+  if (currentStep > 1) {
+    currentStep--;
+    updateOnboardingUI();
+  }
+}
+
+function selectSingleOption(key, value, element) {
+  userPlanData[key] = value;
+  const parent = element.parentElement;
+  parent.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+  element.classList.add('selected');
+}
+
+function toggleMultiOption(key, value, element) {
+  element.classList.toggle('selected');
+  if (element.classList.contains('selected')) {
+    if (!userPlanData[key].includes(value)) userPlanData[key].push(value);
+  } else {
+    userPlanData[key] = userPlanData[key].filter(v => v !== value);
+  }
+}
+
+function runPersonalizationAnimation() {
+  currentStep = 7;
+  updateOnboardingUI();
+
+  const statusText = document.getElementById('obAnimStatus');
+  const statuses = [
+    "Analyzing your goals...",
+    "Mapping high-risk windows...",
+    "Creating personalized milestones...",
+    "Finalizing MindShield Plan..."
+  ];
+
+  let idx = 0;
+  const interval = setInterval(() => {
+    idx++;
+    if (idx < statuses.length) {
+      statusText.textContent = statuses[idx];
+    } else {
+      clearInterval(interval);
+      populateResultsScreen();
+      currentStep = 8;
+      updateOnboardingUI();
+    }
+  }, 700);
+}
+
+function populateResultsScreen() {
+  document.getElementById('planUserName').textContent = `Welcome, ${userPlanData.name || 'Warrior'}!`;
+  document.getElementById('resGoal').textContent = userPlanData.goal || 'Quit Both';
+  document.getElementById('resTarget').textContent = userPlanData.targetDays || '90 Days';
+  document.getElementById('resTrigger').textContent = userPlanData.triggers.length ? userPlanData.triggers[0] : 'Late Night';
+  document.getElementById('resLevel').textContent = 'Wood League';
+  document.getElementById('resMilestone').textContent = '3 Days';
+}
+
+function completeOnboarding() {
+  document.getElementById('onboarding-container').style.display = 'none';
+  document.getElementById('main-app-interface').style.display = 'flex';
+  renderTimeline();
+  loadSavedStreak();
+}
+
+// Bottom Navigation Switching
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+  document.getElementById(pageId).classList.add('active');
   
-  timelineContainer.innerHTML = "";
-  
-  ranks.forEach((rank, index) => {
-    let rankCard = document.createElement("div");
-    rankCard.className = "rank-card";
-    rankCard.style.cursor = "pointer";
+  const navBtns = document.querySelectorAll('.nav-btn');
+  if(pageId === 'page-home') navBtns[0].classList.add('active');
+  if(pageId === 'page-timeline') navBtns[1].classList.add('active');
+  if(pageId === 'page-motivation') navBtns[2].classList.add('active');
+  if(pageId === 'page-notes') navBtns[3].classList.add('active');
+}
+
+// Streak Timer & Mechanics
+function startStreak() {
+  streakStartTime = Date.now();
+  localStorage.setItem('mindshield_streak_start', streakStartTime);
+  document.getElementById('startBtn').style.display = 'none';
+  document.getElementById('resetBtn').style.display = 'block';
+  runTimer();
+}
+
+function resetStreak() {
+  if (confirm("Are you sure you want to reset your streak? Stay strong!")) {
+    streakStartTime = null;
+    localStorage.removeItem('mindshield_streak_start');
+    clearInterval(timerInterval);
     
-    rankCard.innerHTML = `
-      <div style="display:flex; align-items:center; gap:10px;">
-        <img src="${rank.logoUrl}" style="width:35px; height:35px; border-radius:50%; object-fit:cover;">
-        <div>
-           <div style="font-weight:bold;">${rank.name}</div>
-           <div style="font-size:11px; color:#64748b;">Target: ${rank.min} Days</div>
+    document.getElementById('daysCount').textContent = '0';
+    document.getElementById('hoursCount').textContent = '00';
+    document.getElementById('minsCount').textContent = '00';
+    document.getElementById('secsCount').textContent = '00';
+    
+    document.getElementById('userPoints').textContent = '0 PTS';
+    document.getElementById('leagueTitle').textContent = 'Wood League';
+    
+    document.getElementById('startBtn').style.display = 'block';
+    document.getElementById('resetBtn').style.display = 'none';
+  }
+}
+
+function loadSavedStreak() {
+  const saved = localStorage.getItem('mindshield_streak_start');
+  if (saved) {
+    streakStartTime = parseInt(saved, 10);
+    document.getElementById('startBtn').style.display = 'none';
+    document.getElementById('resetBtn').style.display = 'block';
+    runTimer();
+  }
+}
+
+function runTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
+    if (!streakStartTime) return;
+
+    const now = Date.now();
+    const diff = now - streakStartTime;
+
+    const seconds = Math.floor(diff / 1000) % 60;
+    const minutes = Math.floor(diff / (1000 * 60)) % 60;
+    const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+    document.getElementById('daysCount').textContent = days;
+    document.getElementById('hoursCount').textContent = hours < 10 ? '0' + hours : hours;
+    document.getElementById('minsCount').textContent = minutes < 10 ? '0' + minutes : minutes;
+    document.getElementById('secsCount').textContent = seconds < 10 ? '0' + seconds : seconds;
+
+    // Calculate Points & Current League
+    const calculatedPoints = (days * 50) + (hours * 2);
+    document.getElementById('userPoints').textContent = `${calculatedPoints} PTS`;
+
+    updateLeagueStatus(days);
+  }, 1000);
+}
+
+function updateLeagueStatus(days) {
+  let currentLeague = leaguesData[0];
+  let nextTarget = "3 Days";
+
+  for (let i = 0; i < leaguesData.length; i++) {
+    if (days >= leaguesData[i].minDays) {
+      currentLeague = leaguesData[i];
+      nextTarget = leaguesData[i + 1] ? `${leaguesData[i + 1].minDays} Days` : "Max Rank";
+    }
+  }
+
+  document.getElementById('leagueTitle').textContent = currentLeague.name;
+  document.getElementById('leagueIcon').src = currentLeague.icon;
+  document.getElementById('nextRank').textContent = nextTarget;
+}
+
+// League Page rendering & Modal Logic
+function renderTimeline() {
+  const timelineList = document.getElementById('timelineList');
+  if (!timelineList) return;
+
+  timelineList.innerHTML = '';
+  
+  leaguesData.forEach((league, index) => {
+    const card = document.createElement('div');
+    card.className = 'timeline-card';
+    card.onclick = () => openLeagueModal(index);
+
+    card.innerHTML = `
+      <div class="tl-left">
+        <img src="${league.icon}" class="tl-logo" alt="${league.name}">
+        <div class="tl-info">
+          <h4>${league.name}</h4>
+          <p>${league.timelineText} • ⭐ ${league.points} PTS</p>
         </div>
       </div>
-      <div style="color:#f59e0b;">&gt;</div>
+      <div class="tl-badge">View Benefits</div>
     `;
 
-    rankCard.onclick = () => openLeagueDetailsPage(index);
-    timelineContainer.appendChild(rankCard);
+    timelineList.appendChild(card);
   });
 }
 
-function openLeagueDetailsPage(index) {
-  let rank = ranks[index];
+function openLeagueModal(index) {
+  const league = leaguesData[index];
   
-  // Find or Create Details Page
-  let detailsPage = document.getElementById("page-league-detail");
-  if (!detailsPage) {
-    detailsPage = document.createElement("div");
-    detailsPage.id = "page-league-detail";
-    detailsPage.className = "page";
-    document.querySelector(".app-container").appendChild(detailsPage);
-  }
+  document.getElementById('detailLeagueIcon').src = league.icon;
+  document.getElementById('detailLeagueTitle').textContent = league.name;
+  document.getElementById('detailLeagueTime').textContent = `Timeline: ${league.timelineText}`;
+  document.getElementById('detailLeaguePoints').textContent = `⭐ ${league.points} Points Required`;
 
-  // Create Benefits HTML
-  let benefitsItems = rank.benefits.map(b => `
-    <div style="margin-bottom:10px; padding:12px; background:#1e293b; border-left:4px solid #f59e0b; border-radius:5px; font-size:13px; color:#e2e8f0;">
-      ${b}
-    </div>
-  `).join("");
+  const benefitsList = document.getElementById('detailBenefitsList');
+  benefitsList.innerHTML = '';
+  
+  league.benefits.forEach(benefit => {
+    const li = document.createElement('li');
+    li.textContent = benefit;
+    benefitsList.appendChild(li);
+  });
 
-  detailsPage.innerHTML = `
-    <div style="padding:20px;">
-      <button onclick="closeLeagueDetailsPage()" style="background:none; border:none; color:#f59e0b; font-weight:bold; cursor:pointer; margin-bottom:20px;">← Back to Timeline</button>
-      
-      <div style="text-align:center;">
-        <img src="${rank.logoUrl}" style="width:100px; height:100px; border-radius:50%; border:3px solid #f59e0b; margin-bottom:15px;">
-        <h2 style="margin:0;">${rank.name}</h2>
-        <p style="color:#64748b; font-size:14px; margin-bottom:20px;">Unlocked at ${rank.min} Days</p>
-      </div>
+  document.getElementById('leagueDetailModal').classList.add('active');
+}
 
-      <h3 style="color:#f59e0b; border-bottom:1px solid #334155; padding-bottom:5px;">Benefits</h3>
-      <div style="margin-top:15px;">${benefitsItems}</div>
-    </div>
+function closeLeagueModal() {
+  document.getElementById('leagueDetailModal').classList.remove('active');
+}
+
+// Urge Modal Logic
+function openUrgeModal() {
+  document.getElementById('urgeModal').classList.add('active');
+}
+
+function closeUrgeModal() {
+  document.getElementById('urgeModal').classList.remove('active');
+}
+
+// Motivation Quotes Logic
+function nextQuote() {
+  currentQuoteIdx = (currentQuoteIdx + 1) % quotes.length;
+  document.getElementById('quoteText').textContent = quotes[currentQuoteIdx];
+}
+
+// Notes Logic
+function addNote() {
+  const input = document.getElementById('noteInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const notesList = document.getElementById('notesList');
+  const card = document.createElement('div');
+  card.className = 'note-card';
+
+  const timeStr = new Date().toLocaleString([], { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric' });
+  card.innerHTML = `
+    <p>${text}</p>
+    <div class="note-time">${timeStr}</div>
   `;
 
-  // Hide others, Show this
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  detailsPage.classList.add('active');
-  // Hide Navbar
-  document.querySelector('.navbar').style.display = 'none';
+  notesList.prepend(card);
+  input.value = '';
 }
-
-function closeLeagueDetailsPage() {
-  document.querySelector('.navbar').style.display = 'flex';
-  showPage('page-timeline');
-}
-
-// ... Rest of your existing logic (Onboarding, Timer, Notes) stays here ...
-
-// Initialize
-checkOnboardingStatus();
-renderTimeline();
-setInterval(updateTimer, 1000);
-updateTimer();
