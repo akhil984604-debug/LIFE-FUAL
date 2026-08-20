@@ -338,3 +338,244 @@
 </body>
   </html>
   
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NoFap RPG Companion</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ONBOARDING CONTAINER -->
+  <div id="onboarding-container" class="app-container">
+    <div id="onboardHeader" class="ob-header">
+      <button id="obBackBtn" onclick="prevOnboardingStep()">←</button>
+      <div class="progress-bar-bg"><div id="obProgressBar" class="progress-bar-fill"></div></div>
+      <span id="obStepIndicator">1 of 8</span>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="ob-screen active" id="obStep1">
+      <h2>Welcome, Warrior</h2>
+      <p>Enter your details to begin your journey.</p>
+      <input type="text" id="obName" placeholder="Your Name / Hero Title" />
+      <input type="number" id="obAge" placeholder="Age" />
+      <select id="obGender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+      <button class="btn-primary" onclick="nextOnboardingStep()">Continue</button>
+    </div>
+
+    <!-- Step 2-6 (Simplified setup steps) -->
+    <div class="ob-screen" id="obStep2">
+      <h2>Primary Goal</h2>
+      <div class="option-card" onclick="selectSingleOption('goal', 'Quit Porn & Masturbation', this)">Quit Fully</div>
+      <div class="option-card" onclick="selectSingleOption('goal', 'Build Self Control', this)">Build Control</div>
+      <button class="btn-primary" onclick="nextOnboardingStep()">Next</button>
+    </div>
+
+    <div class="ob-screen" id="obStep3">
+      <h2>Main Triggers</h2>
+      <div class="option-card" onclick="toggleMultiOption('triggers', 'Boredom', this)">Boredom</div>
+      <div class="option-card" onclick="toggleMultiOption('triggers', 'Late Night Screen Time', this)">Late Night Screen</div>
+      <button class="btn-primary" onclick="nextOnboardingStep()">Next</button>
+    </div>
+
+    <div class="ob-screen" id="obStep4">
+      <h2>Target Days</h2>
+      <div class="option-card" onclick="selectSingleOption('targetDays', '30 Days', this)">30 Days</div>
+      <div class="option-card" onclick="selectSingleOption('targetDays', '90 Days', this)">90 Days</div>
+      <button class="btn-primary" onclick="nextOnboardingStep()">Next</button>
+    </div>
+
+    <div class="ob-screen" id="obStep5">
+      <h2>Risk Time</h2>
+      <div class="option-card" onclick="selectSingleOption('riskTime', 'Late Night', this)">Late Night</div>
+      <div class="option-card" onclick="selectSingleOption('riskTime', 'Afternoon', this)">Afternoon</div>
+      <button class="btn-primary" onclick="nextOnboardingStep()">Next</button>
+    </div>
+
+    <div class="ob-screen" id="obStep6">
+      <h2>Ready to Build Your Hero?</h2>
+      <button class="btn-primary" onclick="runPersonalizationAnimation()">Analyze & Create Plan</button>
+    </div>
+
+    <!-- Step 7: Animation Screen -->
+    <div class="ob-screen" id="obStep7">
+      <h2 id="obAnimStatus">Analyzing your goals...</h2>
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Step 8: Plan Overview -->
+    <div class="ob-screen" id="obStep8">
+      <h2 id="planUserName">Welcome!</h2>
+      <div class="summary-box">
+        <p>Goal: <span id="resGoal"></span></p>
+        <p>Target: <span id="resTarget"></span></p>
+        <p>Main Trigger: <span id="resTrigger"></span></p>
+      </div>
+      <button class="btn-primary" onclick="completeOnboarding()">Start Journey</button>
+    </div>
+  </div>
+
+  <!-- MAIN APP INTERFACE -->
+  <div id="main-app-interface" class="app-container" style="display: none;">
+    
+    <!-- DASHBOARD PAGE -->
+    <div id="dashboardPage" class="page active">
+      
+      <!-- HERO RPG PROFILE HEADER -->
+      <div class="hero-card">
+        <div class="hero-header">
+          <div class="avatar-box">
+            <span id="heroAvatar" class="hero-avatar">🥷</span>
+            <span id="heroStatusBadge" class="status-badge healthy">HEALTHY</span>
+          </div>
+          <div class="hero-info">
+            <h3 id="heroTitle">Novice Shadow</h3>
+            <p class="hero-level">Level <span id="heroLevel">1</span></p>
+            <div class="hp-bar-bg"><div id="hpBar" class="hp-bar-fill" style="width: 100%;"></div></div>
+            <span class="bar-label">HP: <span id="hpText">100/100</span></span>
+          </div>
+        </div>
+
+        <!-- EXP & GOLD COINS -->
+        <div class="currency-bar">
+          <div class="exp-box">
+            <span>EXP: <strong id="expText">0 / 100</strong></span>
+            <div class="exp-bar-bg"><div id="expBar" class="exp-bar-fill" style="width: 0%;"></div></div>
+          </div>
+          <div class="coin-box">
+            🪙 <span id="coinText">0</span> Coins
+          </div>
+        </div>
+
+        <!-- CORE STATS -->
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-icon">🛡️</span>
+            <div>
+              <p>Willpower (WIL)</p>
+              <strong id="statWil">0</strong>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">⚔️</span>
+            <div>
+              <p>Strength (STR)</p>
+              <strong id="statStr">0</strong>
+            </div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-icon">🔮</span>
+            <div>
+              <p>Focus (INT)</p>
+              <strong id="statInt">0</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIMER & LEAGUE CARD -->
+      <div class="card timer-card">
+        <div class="league-badge-container">
+          <img id="leagueIcon" src="https://i.ibb.co/1tpcH1Rg/html-render-1.png" alt="League" />
+          <h4 id="leagueTitle">Wood League</h4>
+          <p>Next Milestone: <span id="nextRank">3 Days</span></p>
+        </div>
+
+        <div class="timer-display">
+          <div><span id="daysCount">0</span><label>Days</label></div>
+          <div><span id="hoursCount">00</span><label>Hours</label></div>
+          <div><span id="minsCount">00</span><label>Mins</label></div>
+          <div><span id="secsCount">00</span><label>Secs</label></div>
+        </div>
+
+        <div class="timer-actions">
+          <button id="startBtn" class="btn-primary" onclick="startStreak()">Start Streak</button>
+          <button id="resetBtn" class="btn-danger" style="display:none;" onclick="triggerRelapsePenalty()">I Relapsed (Penalty)</button>
+        </div>
+      </div>
+
+      <!-- DAILY QUESTS / TASKS -->
+      <div class="card">
+        <h3>Daily RPG Quests</h3>
+        <div class="quest-list">
+          <div class="quest-item">
+            <span>🏋️ Workout (+20 EXP, +10 Coins, +1 STR)</span>
+            <button class="btn-small" id="btnQuestWorkout" onclick="completeQuest('workout', 20, 10, 'STR')">Complete</button>
+          </div>
+          <div class="quest-item">
+            <span>🚿 Cold Shower (+20 EXP, +10 Coins, +1 WIL)</span>
+            <button class="btn-small" id="btnQuestShower" onclick="completeQuest('shower', 20, 10, 'WIL')">Complete</button>
+          </div>
+          <div class="quest-item">
+            <span>🧘 Meditation / Reading (+20 EXP, +10 Coins, +1 INT)</span>
+            <button class="btn-small" id="btnQuestMind" onclick="completeQuest('mind', 20, 10, 'INT')">Complete</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAILY QUIZ -->
+      <div class="card">
+        <h3>Daily Mind Quiz (+15 Coins)</h3>
+        <div id="quizContainer">
+          <p id="quizQuestion">Loading question...</p>
+          <div id="quizOptions" class="quiz-options"></div>
+        </div>
+      </div>
+
+      <button class="btn-warning urge-btn" onclick="openUrgeModal()">🚨 Panic Button (Urge Emergency)</button>
+    </div>
+
+    <!-- LEAGUES / TIMELINE PAGE -->
+    <div id="leaguesPage" class="page">
+      <h3>League & Rank Progression</h3>
+      <div id="timelineList" class="timeline-list"></div>
+    </div>
+
+    <!-- JOURNAL / NOTES PAGE -->
+    <div id="journalPage" class="page">
+      <h3>Warrior Journal</h3>
+      <textarea id="noteInput" placeholder="Write down your thoughts or triggers..."></textarea>
+      <button class="btn-primary" onclick="addNote()">Save Entry</button>
+      <div id="notesList" class="notes-list"></div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <div class="bottom-nav">
+      <button class="nav-btn active" onclick="showPage('dashboardPage')">🏠 Dashboard</button>
+      <button class="nav-btn" onclick="showPage('leaguesPage')">🏆 Ranks</button>
+      <button class="nav-btn" onclick="showPage('journalPage')">📜 Journal</button>
+    </div>
+  </div>
+
+  <!-- LEAGUE DETAIL MODAL -->
+  <div id="leagueDetailModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeLeagueModal()">✕</button>
+      <img id="detailLeagueIcon" src="" alt="Rank Logo" />
+      <h3 id="detailLeagueTitle">League Name</h3>
+      <p id="detailLeagueTime" class="modal-subtitle"></p>
+      <p id="detailLeaguePoints" class="modal-points"></p>
+      <ul id="detailBenefitsList" class="benefits-list"></ul>
+    </div>
+  </div>
+
+  <!-- URGE / PANIC MODAL -->
+  <div id="urgeModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>Stay Strong!</h3>
+      <p id="quoteText">"Urges are temporary, but glory is forever."</p>
+      <button class="btn-primary" onclick="nextQuote()">Next Motivation</button>
+      <button class="btn-secondary" onclick="closeUrgeModal()">I am back in control</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
