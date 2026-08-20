@@ -9,7 +9,7 @@ const onboardingData = {
 
 const defaultLogo = "https://i.ibb.co/1tpcH1Rg/html-render-1.png";
 
-// Ranks with specific benefits
+// Updated Ranks with exact specific benefits
 const ranks = [
   { min: 0, max: 2, name: "Wood League", logoUrl: "https://i.ibb.co/1tpcH1Rg/html-render-1.png", next: "3 Days", benefits: ["The Start – journey begins"] },
   { min: 3, max: 6, name: "Bronze League", logoUrl: "https://i.ibb.co/0pXyYrqB/1787144222633.png", next: "7 Days", benefits: ["The Start – cravings & doubt begin", "Withdrawals Hit – urges, mood swings, brain fog"] },
@@ -291,7 +291,6 @@ function openLeagueDetailsPage(index) {
     </div>
   `).join("");
 
-  // Full Screen No-Scroll Container Styles
   detailsPage.innerHTML = `
     <div style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:#0f172a; z-index:9999; display:flex; flex-direction:column; padding:16px; box-sizing:border-box;">
       
@@ -421,4 +420,4 @@ renderTimeline();
 renderNotes();
 setInterval(updateTimer, 1000);
 updateTimer();
-  
+    
