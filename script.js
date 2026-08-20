@@ -26,7 +26,7 @@ const quotes = [
 ];
 let currentQuoteIdx = 0;
 
-// League Data Configuration with Icons, Timeline, Points and Detailed Benefits
+// ALL 10 LEAGUES DATA WITH DIRECT IMAGE LINKS
 const leaguesData = [
   {
     name: "Wood League",
@@ -47,12 +47,12 @@ const leaguesData = [
     minDays: 3,
     maxDays: 7,
     points: 100,
-    icon: "https://i.ibb.co/1tpcH1Rg/html-render-1.png",
+    icon: "https://i.ibb.co/0pXyYrqB/1787144222633.png",
     timelineText: "Day 3 – Day 7",
     benefits: [
       "Energy levels begin to stabilize",
       "Reduction in brain fog and lethargy",
-      " Dopamine receptors start resetting",
+      "Dopamine receptors start resetting",
       "Unlock Bronze Warrior Badge"
     ]
   },
@@ -61,7 +61,7 @@ const leaguesData = [
     minDays: 7,
     maxDays: 14,
     points: 300,
-    icon: "https://i.ibb.co/1tpcH1Rg/html-render-1.png",
+    icon: "https://i.ibb.co/PGYLFGC6/1787149414212.png",
     timelineText: "Day 7 – Day 14",
     benefits: [
       "Noticeable boost in self-confidence",
@@ -75,7 +75,7 @@ const leaguesData = [
     minDays: 14,
     maxDays: 30,
     points: 700,
-    icon: "https://i.ibb.co/1tpcH1Rg/html-render-1.png",
+    icon: "https://i.ibb.co/Y7T2Md1T/1787149453207.png",
     timelineText: "Day 14 – Day 30",
     benefits: [
       "Deeper sleep quality and faster physical recovery",
@@ -89,7 +89,7 @@ const leaguesData = [
     minDays: 30,
     maxDays: 60,
     points: 1500,
-    icon: "https://i.ibb.co/1tpcH1Rg/html-render-1.png",
+    icon: "https://i.ibb.co/mC9TC9z2/1787149488344.png",
     timelineText: "Day 30 – Day 60",
     benefits: [
       "Major neuroplastic rewiring of reward pathways",
@@ -103,13 +103,69 @@ const leaguesData = [
     minDays: 60,
     maxDays: 90,
     points: 3000,
-    icon: "https://i.ibb.co/1tpcH1Rg/html-render-1.png",
+    icon: "https://i.ibb.co/gb4knVNw/1787164361213.png",
     timelineText: "Day 60 – Day 90",
     benefits: [
       "Complete habit transformation achieved",
       "Unshakable self-discipline & high productivity",
       "Natural aura, confidence, and posture overhaul",
-      "Unlock Ultimate Master League Elite Badge"
+      "Unlock Diamond Elite Badge"
+    ]
+  },
+  {
+    name: "Master League",
+    minDays: 90,
+    maxDays: 120,
+    points: 5000,
+    icon: "https://i.ibb.co/NRMcNyy/1787163001657.png",
+    timelineText: "Day 90 – Day 120",
+    benefits: [
+      "Mastery over mind and impulses",
+      "Peak focus and elevated baseline mood",
+      "Strong inner calm under extreme pressure",
+      "Unlock Master League Identity"
+    ]
+  },
+  {
+    name: "Grandmaster League",
+    minDays: 120,
+    maxDays: 180,
+    points: 8000,
+    icon: "https://i.ibb.co/p67r29g6/1787163062978.png",
+    timelineText: "Day 120 – Day 180",
+    benefits: [
+      "Total mental purity & sharp cognitive edge",
+      "High level charisma and leadership presence",
+      "Complete elimination of old toxic dependency",
+      "Unlock Grandmaster Insignia"
+    ]
+  },
+  {
+    name: "Titan League",
+    minDays: 180,
+    maxDays: 365,
+    points: 12000,
+    icon: "https://i.ibb.co/4nGpPkTB/1787163120591.png",
+    timelineText: "Day 180 – Day 365",
+    benefits: [
+      "Immense physical & mental drive",
+      "Massive success in long-term personal goals",
+      "Virtually immune to weak temporary triggers",
+      "Unlock Titan Shield Crest"
+    ]
+  },
+  {
+    name: "Legend League",
+    minDays: 365,
+    maxDays: 1000,
+    points: 25000,
+    icon: "https://i.ibb.co/WvG42K78/1787163182723.png",
+    timelineText: "1 Year & Above",
+    benefits: [
+      "Ultimate personal freedom achieved",
+      "Lifetime mastery of self-control",
+      "An inspiration for others starting the path",
+      "Unlock Legend Supreme Status"
     ]
   }
 ];
@@ -246,6 +302,7 @@ function resetStreak() {
     
     document.getElementById('userPoints').textContent = '0 PTS';
     document.getElementById('leagueTitle').textContent = 'Wood League';
+    document.getElementById('leagueIcon').src = leaguesData[0].icon;
     
     document.getElementById('startBtn').style.display = 'block';
     document.getElementById('resetBtn').style.display = 'none';
@@ -281,7 +338,7 @@ function runTimer() {
     document.getElementById('minsCount').textContent = minutes < 10 ? '0' + minutes : minutes;
     document.getElementById('secsCount').textContent = seconds < 10 ? '0' + seconds : seconds;
 
-    // Calculate Points & Current League
+    // Points calculation (50 pts per day, 2 pts per hour)
     const calculatedPoints = (days * 50) + (hours * 2);
     document.getElementById('userPoints').textContent = `${calculatedPoints} PTS`;
 
@@ -305,7 +362,7 @@ function updateLeagueStatus(days) {
   document.getElementById('nextRank').textContent = nextTarget;
 }
 
-// League Page rendering & Modal Logic
+// Timeline Rendering & Modal System
 function renderTimeline() {
   const timelineList = document.getElementById('timelineList');
   if (!timelineList) return;
@@ -365,13 +422,13 @@ function closeUrgeModal() {
   document.getElementById('urgeModal').classList.remove('active');
 }
 
-// Motivation Quotes Logic
+// Quotes Logic
 function nextQuote() {
   currentQuoteIdx = (currentQuoteIdx + 1) % quotes.length;
   document.getElementById('quoteText').textContent = quotes[currentQuoteIdx];
 }
 
-// Notes Logic
+// Notebook Logic
 function addNote() {
   const input = document.getElementById('noteInput');
   const text = input.value.trim();
@@ -389,4 +446,5 @@ function addNote() {
 
   notesList.prepend(card);
   input.value = '';
-}
+      }
+    
