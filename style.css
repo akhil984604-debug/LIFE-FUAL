@@ -26,6 +26,245 @@ body {
   flex-direction: column;
   justify-content: space-between;
   border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+/* ONBOARDING STYLES */
+.onboarding-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.onboarding-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+#obBackBtn {
+  background: #181b26;
+  border: 1px solid #2a2e3f;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.progress-bar-container {
+  flex: 1;
+  height: 6px;
+  background: #181b26;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 12.5%;
+  background: #f59e0b;
+  transition: width 0.3s ease;
+}
+
+.step-indicator {
+  font-size: 10px;
+  color: #888;
+  font-weight: 600;
+}
+
+.ob-screen {
+  display: none;
+  height: calc(100% - 40px);
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ob-screen.active {
+  display: flex;
+}
+
+.ob-content h2 {
+  font-size: 18px;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.ob-sub {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.badge-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input-group input, .input-group select {
+  width: 100%;
+  background: #181b26;
+  border: 1px solid #2a2e3f;
+  color: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  outline: none;
+  font-size: 12px;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+}
+
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.option-card {
+  background: #181b26;
+  border: 1px solid #2a2e3f;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.option-card.selected {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.opt-icon {
+  font-size: 16px;
+}
+
+.premium-card {
+  justify-content: space-between;
+}
+
+.target-title {
+  display: block;
+  font-size: 14px;
+  color: #fff;
+}
+
+.target-desc {
+  font-size: 10px;
+  color: #777;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: #f59e0b;
+  border: none;
+  color: #000;
+  font-weight: 700;
+  border-radius: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+
+.loader-ring {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #181b26;
+  border-top: 4px solid #f59e0b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.anim-status {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #aaa;
+}
+
+.plan-ready-badge {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.result-summary-card {
+  background: #181b26;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  border-bottom: 1px solid #232736;
+  padding-bottom: 6px;
+}
+
+.summary-item span {
+  color: #777;
+}
+
+.summary-item strong {
+  color: #fff;
+}
+
+.focus-box {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  color: #f59e0b;
+}
+
+/* APP DASHBOARD STYLES */
+#main-app-interface {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .page {
@@ -351,5 +590,4 @@ textarea {
 .nav-btn.active {
   color: #f59e0b;
   font-weight: bold;
-  }
-  
+}
